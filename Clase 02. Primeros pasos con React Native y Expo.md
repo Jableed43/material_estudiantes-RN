@@ -2,126 +2,110 @@
 
 ## 📚 Índice
 
-1. [Setup Inicial y Comandos](#setup-inicial)
-2. [Configuración de Android SDK](#android-sdk)
-3. [Conceptos Fundamentales](#conceptos-fundamentales)
-   - [Punto de Entrada (Entry Point)](#entry-point)
-   - [React Native vs Expo](#rn-vs-expo)
-4. [Componentes Básicos](#componentes-basicos)
-   - [Equivalencias HTML](#equivalencias-html)
-5. [Unidades de Medida](#unidades-medida)
-6. [Proyecto Práctico: Mi Perfil](#proyecto-practico)
-7. [Buenas Prácticas](#buenas-practicas)
-8. [Resumen](#resumen)
+1. [Configuración Rápida (Setup Inicial)](#setup-inicial)
+2. [Entendiendo Expo y su Ecosistema](#que-es-expo)
+   - [¿Por qué usar Expo Router?](#expo-router)
+   - [Diferencias entre React (Web) y React Native (Mobile)](#diferencias-web-mobile)
+3. [Componentes Básicos de Interfaz (UI)](#componentes-basicos)
+   - [View, Text e Image](#view-text-image)
+   - [Interacción con Button y TouchableOpacity](#botones)
+4. [Diseño y Layout con Flexbox](#estilos-flexbox)
+   - [Eje Principal y Cruzado](#ejecucion-flexbox)
+   - [Unidades de Medida en Móviles](#unidades-medida)
+5. [Proyecto Práctico: Mi Perfil Personal](#proyecto-practico)
+6. [Resumen y Consejos de Estilo](#resumen)
 
 ---
 
-## 1. Setup Inicial y Comandos {#setup-inicial}
+## 1. Setup Inicial {#setup-inicial}
 
-### 🛠️ Comandos de Expo
+Para empezar hoy, configuramos todo lo necesario para programar y ver los cambios al instante.
+1. Comando moderno para crear apps: `npx create-expo-app MiApp`.
+2. Servidor de desarrollo: `npx expo start`.
+3. Ver cambios: Escanea el código QR con la app **Expo Go** (Android) o la cámara (iOS).
 
-Para empezar un proyecto moderno de React Native, usaremos **Expo**, que nos facilita enormemente la vida.
+⚠️ **Importante**: No instales `expo-cli` globalmente (`npm install -g`), usa siempre `npx`.
 
-**Crear un proyecto nuevo:**
-```bash
-npx create-expo-app MiApp
+---
+
+## 2. Diferencias clave: Web vs Mobile {#diferencias-web-mobile}
+
+React Native no usa etiquetas HTML, usa componentes de interfaz nativos:
+
+| Web (HTML) | Mobile (React Native) | Uso |
+|------------|-----------------------|-----|
+| `<div>` | `<View>` | Contenedor principal |
+| `<span>` / `<p>` | `<Text>` | Para TODO el texto |
+| `<img>` | `<Image>` | Fotos (locales o remotas) |
+| `<a>` / `<button>` | `<TouchableOpacity>` | Para botones interactivos |
+
+---
+
+## 3. Componentes Básicos {#componentes-basicos}
+
+### View y Text
+En React Native, **nunca** puedes poner texto suelto. Debe estar siempre dentro de un `<Text>`.
+
+```jsx
+import { View, Text } from 'react-native';
+
+const MiComponente = () => (
+  <View style={{ flex: 1, backgroundColor: 'blue' }}>
+    <Text style={{ color: 'white' }}>¡Hola Mundo!</Text>
+  </View>
+);
 ```
 
-**Comandos de Desarrollo:**
+### Image: Un detalle importante
+Para mostrar una imagen de internet, debes especificar el **ancho y el alto** (width y height), o no se verá:
 
-| Comando | Para qué sirve |
-|---------|----------------|
-| `npx expo start` | Inicia el servidor. Verás un código QR para escanear con la app **Expo Go**. |
-| `npx expo run:android` | Ejecuta la app en un emulador o celular Android (requiere SDK). |
-| `npx expo run:ios` | Ejecuta la app en un simulador iOS (solo en Mac). |
-| `npx expo start --clear` | Úsalo si algo no funciona bien, limpia la "basura" temporal. |
-
----
-
-## 2. Configuración de Android SDK {#android-sdk}
-
-Si quieres probar tu app en un emulador de Android, necesitas instalar **Android Studio** y configurar las "Variables de Entorno".
-
-### ⚠️ Nota Importante: Variables de Entorno
-Debes configurar la variable `ANDROID_HOME` apuntando a donde instalaste el SDK (usualmente `C:\Users\TuUsuario\AppData\Local\Android\Sdk`). 
-
-**¿Por qué es necesario?**
-Sin esto, tu computadora no sabrá dónde están las herramientas para "hablar" con el emulador de Android.
+```jsx
+<Image 
+  source={{ uri: 'https://via.placeholder.com/150' }} 
+  style={{ width: 100, height: 100 }} 
+/>
+```
 
 ---
 
-## 3. Conceptos Fundamentales {#conceptos-fundamentales}
+## 4. Estilos y Layout con Flexbox {#estilos-flexbox}
 
-### 🔌 Punto de Entrada (Entry Point) {#entry-point}
+En el celu, todo es **Flexbox**. Por defecto, los elementos se apilan uno abajo del otro (`flexDirection: "column"`).
 
-En un proyecto de Expo Router, el archivo que "enciende" todo es `expo-router/entry`. Aunque no lo veas en tus carpetas, está ahí trabajando. Tu trabajo empieza realmente en `app/_layout.tsx`, que es el componente raíz.
+- **flex**: Si pones `flex: 1`, el componente ocupará todo el espacio que pueda.
+- **justifyContent**: Centra en el eje principal (Arriba/Abajo por defecto).
+- **alignItems**: Centra en el eje secundario (Izquierda/Derecha por defecto).
 
-### 🔄 React Native vs Expo {#rn-vs-expo}
-
-| Característica | React Native "Puro" | Expo (Recomendado) |
-|----------------|---------------------|--------------------|
-| **Facilidad**  | Difícil de configurar | Muy fácil, tipo "instala y usa" |
-| **Herramientas**| Manuales | Todo incluido (Expo Go, Cámara, etc.) |
-| **Ideal para** | Expertos en nativo | Estudiantes y Prototipos rápidos |
-
----
-
-## 4. Componentes Básicos {#componentes-basicos}
-
-### 🔄 Equivalencias Útiles para los que vienen de la Web {#equivalencias-html}
-
-Si sabes HTML, esto te hará clic de inmediato:
-
-- **`<View>`** es como un `<div>`. Es el contenedor para todo.
-- **`<Text>`** es como un `<span>` o `<p>`. **IMPORTANTE**: No puedes poner texto "suelto" en una View, siempre debe estar dentro de un `<Text>`.
-- **`<Image>`** es como un `<img>`.
-- **`<TextInput>`** es como un `<input type="text">`.
+### Unidades de Medida
+En móviles **no usamos px**. Usamos "unidades de densidad".
+- `fontSize: 18` (Sin unidades).
+- `margin: 10` (Sin unidades).
 
 ---
 
-## 5. Unidades de Medida {#unidades-medida}
-
-En React Native **no usamos px, em ni rem**.
-
-- **Números directos**: `width: 100` significa "100 puntos lógicos". React Native se encarga de que se vea igual de grande en un teléfono chiquito que en uno gigante.
-- **Porcentajes**: Solo funcionan para `width` y `height`. Ej: `width: '100%'`.
-- **Flexbox**: Es el rey del diseño. Usamos `flex: 1` para que un elemento ocupe todo el espacio disponible.
-
----
-
-## 6. Proyecto Práctico: Mi Perfil {#proyecto-practico}
+## 5. Proyecto Práctico: Mi Perfil Personal {#proyecto-practico}
 
 ### Objetivo
-Crear una tarjeta de presentación digital con tu foto, nombre y una breve biografía.
+Crear una pantalla que muestre tu foto, tu nombre, una descripción corta y un botón interactivo.
 
 ### Pasos Generales
-1. **Contenedor**: Usa una `View` con `flex: 1` y un `backgroundColor` suave.
-2. **Imagen**: Agrega una imagen de perfil usando `require('@/assets/images/user.png')`.
-3. **Texto**: Añade tu nombre con un `fontSize: 24` y `fontWeight: 'bold'`.
-4. **Input**: Agrega un `TextInput` para que el usuario pueda escribir su "estado" o "frase del día".
-5. **Scroll**: Envuelve todo en un `<ScrollView>` por si la biografía es muy larga.
+1. Crear un contenedor `<View>` que ocupe toda la pantalla con `flex: 1`.
+2. Centrar todo con `justifyContent` y `alignItems`.
+3. Agregar una `<Image>` con bordes redondeados (Ej: `borderRadius: 50`).
+4. Añadir tu nombre en un `<Text>` con estilo negrita (`fontWeight: "bold"`).
+5. Crear un botón usando `<TouchableOpacity>` que muestre una alerta (`Alert.alert()`) al tocarlo.
+
+### Resultado Final
+Una tarjeta de perfil profesional visible desde tu celular.
 
 ---
 
-## ✅ Buenas Prácticas {#buenas-practicas}
+## ✅ Tips de Clase
 
-- **Usa Expo Go**: No te compliques con emuladores al principio. Usa tu propio teléfono.
-- **StyleSheet**: No escribas estilos "inline" (dentro de las etiquetas). Usa `const styles = StyleSheet.create({ ... })` al final del archivo para mantener orden.
-- **SafeAreaView**: Úsalo siempre para evitar que el contenido "se choque" con la cámara (notch) o la barra de batería.
-
----
-
-## 📝 Resumen {#resumen}
-
-### Conceptos Clave Aprendidos
-1. **Expo**: Es nuestra plataforma de lanzamiento.
-2. **Componentes Nativos**: `<View>`, `<Text>` e `<Image>` son el ABC.
-3. **Puntos Lógicos**: Las medidas son inteligentes y se adaptan a cada pantalla.
-
-### Próximos Pasos
-- Experimenta cambiando colores en tu proyecto "Mi Perfil".
-- Intenta agregar un `Button` que al presionarlo muestre un mensaje con `Alert.alert('Hola!')`.
+- ✅ **Camel Case**: Los estilos se escriben como `backgroundColor`, no como `background-color`.
+- ✅ **Bordes**: Los bordes redondeados no necesitan "%". Usa números para mayor precisión.
+- ✅ **SafeAreaView**: Evita que el texto quede debajo de la cámara o la batería.
 
 ---
 
-**Última actualización:** Marzo 2026 - Guía para estudiantes React Native.
+**Última actualización:** Marzo 2026 - Guía de aprendizaje unificada.

@@ -1,87 +1,124 @@
 # Guía Paso a Paso: Tu primera TODO List con Modo Oscuro
 
 ## 🎯 Objetivo
-Aprenderás a construir una aplicación real de "Lista de Tareas" (TODO List) que responde a lo que el usuario hace e incluso permite cambiar entre tema claro y oscuro.
+
+Aprenderás a construir una aplicación real de "Lista de Tareas" (TODO List) que responde a lo que el usuario hace e incluso permite cambiar entre tema claro y oscuro, aplicando los conceptos de hooks, eventos y componentes nativos.
 
 ## 📚 Índice
 
-1. [Estructura y Estados](#estados)
-2. [Agregar Tareas](#agregar)
-3. [Modo Oscuro](#dark-mode)
-4. [Mostrar la Lista con FlatList](#flatlist)
+1. [Paso 1: Estructura y Estados](#paso-1)
+2. [Paso 2: Header y Switch de Dark Mode](#paso-2)
+3. [Paso 3: Agregar Tareas](#paso-3)
+4. [Paso 4: Tareas Pendientes (Valores Derivados)](#paso-4)
+5. [Paso 5: Listado con FlatList](#paso-5)
+6. [Paso 6: Checkbox y Eliminar](#paso-6)
+7. [Checklist Final](#checklist)
 
 ---
 
-## 🏗️ Paso 1: Estructura y Estados {#estados}
+## 🏗️ Paso 1: Estructura y Estados {#paso-1}
 
-Primero, necesitamos que nuestra app "recuerde" tres cosas: las tareas, lo que el usuario escribe, y si el modo oscuro está activo.
+Necesitamos que nuestra app "recuerde" tres cosas: las tareas, lo que el usuario escribe, y si el modo oscuro está activo.
 
 ```tsx
+// Definimos el tipo de dato para una tarea
+interface Tarea {
+  id: string;
+  texto: string;
+  completada: boolean;
+}
+
 export default function TodoList() {
-  const [tareas, setTareas] = useState([]);      // Nuestra lista
-  const [nuevaTarea, setNuevaTarea] = useState(""); // Lo que estamos escribiendo
-  const [darkMode, setDarkMode] = useState(false);  // ¿Modo oscuro?
+  const [tareas, setTareas] = useState<Tarea[]>([]); // Nuestra lista
+  const [nuevaTarea, setNuevaTarea] = useState("");   // Lo que estamos escribiendo
+  const [darkMode, setDarkMode] = useState(false);    // ¿Modo oscuro activado?
   
-  // ... resto del código
+  // El fondo cambiará según el estado darkMode
+  return (
+    <SafeAreaView style={[styles.container, darkMode && styles.containerDark]}>
+      {/* Contenido de la app */}
+    </SafeAreaView>
+  );
 }
 ```
 
 ---
 
-## ✍️ Paso 2: Agregar Tareas {#agregar}
-
-Necesitamos una función que tome lo que el usuario escribió y lo meta en la lista.
-
-```tsx
-const agregarTarea = () => {
-  if (nuevaTarea.trim()) { // Validamos que no esté vacío
-    const nueva = {
-      id: Date.now().toString(), // Un ID único
-      texto: nuevaTarea.trim(),
-      completada: false,
-    };
-    
-    setTareas([...tareas, nueva]); // Copiamos lo anterior y agregamos la nueva
-    setNuevaTarea(""); // Limpiamos el texto
-  }
-};
-```
-
----
-
-## 🌙 Paso 3: Implementar el Modo Oscuro {#dark-mode}
+## 🌙 Paso 2: Header y Switch de Dark Mode {#paso-2}
 
 Usaremos un `Switch` (interruptor) que cambie el estado de `darkMode`.
 
 ```tsx
-<Switch
-  value={darkMode}
-  onValueChange={setDarkMode} // Al tocarlo, darkMode pasa a ser true o false
-/>
-```
-
-Y para los colores, usamos el estado en los estilos:
-
-```tsx
-<SafeAreaView style={[styles.container, darkMode && styles.containerDark]}>
-  {/* El segundo estilo solo se aplica si darkMode es true */}
-</SafeAreaView>
+<View style={styles.header}>
+  <Text style={[styles.titulo, darkMode && styles.tituloDark]}>Mis Tareas</Text>
+  <Switch
+    value={darkMode}
+    onValueChange={setDarkMode} // Al tocarlo, darkMode pasa a ser true o false
+  />
+</View>
 ```
 
 ---
 
-## 📜 Paso 4: Mostrar la Lista con FlatList {#flatlist}
+## ✍️ Paso 3: Agregar Tareas {#paso-3}
 
-Usamos `FlatList` para que la app no se trabe si hay muchas tareas.
+Usamos una función que valida que el texto no esté vacío, crea un objeto nuevo y lo agrega al array sin modificar el original (**inmutabilidad**).
+
+```tsx
+const agregarTarea = () => {
+  if (nuevaTarea.trim()) { 
+    const nueva = {
+      id: Date.now().toString(), // ID único basado en el tiempo
+      texto: nuevaTarea.trim(),
+      completada: false,
+    };
+    
+    // Spread operator (...) para copiar lo anterior y agregar la nueva
+    setTareas([...tareas, nueva]); 
+    setNuevaTarea(""); // Limpiamos el input
+  }
+};
+```
+
+Conecta esto a tu `TextInput`:
+```tsx
+<TextInput
+  value={nuevaTarea}
+  onChangeText={setNuevaTarea}
+  onSubmitEditing={agregarTarea} // Agrega al presionar Enter en el teclado
+  placeholder="Escribe una tarea..."
+/>
+```
+
+---
+
+## 📊 Paso 4: Tareas Pendientes {#paso-4}
+
+No hace falta un nuevo estado para contar. Podemos calcularlo en cada renderizado.
+
+```tsx
+const pendientes = tareas.filter(t => !t.completada).length;
+
+// En el texto, usa comillas invertidas para evitar errores:
+<Text>{`${pendientes} tareas pendientes`}</Text>
+```
+
+---
+
+## 📜 Paso 5: Listado con FlatList {#paso-5}
+
+`FlatList` es mucho más eficiente que un ScrollView para listas.
 
 ```tsx
 <FlatList
   data={tareas}
   keyExtractor={(item) => item.id}
   renderItem={({ item }) => (
-    <View style={styles.item}>
-      <Text>{item.texto}</Text>
-      {/* Botón para borrar, etc. */}
+    <View style={[styles.item, darkMode && styles.itemDark]}>
+      <Text style={[styles.texto, item.completada && styles.tachado]}>
+        {item.texto}
+      </Text>
+      {/* Aquí irán los botones de Check y Eliminar (Paso 6) */}
     </View>
   )}
 />
@@ -89,20 +126,36 @@ Usamos `FlatList` para que la app no se trabe si hay muchas tareas.
 
 ---
 
-## ✅ Checklist de Aprendizaje
-- [ ] ¿Entiendes cómo `useState` guarda la información?
-- [ ] ¿Lograste que el modo oscuro cambie el color de fondo?
-- [ ] ¿Cada tarea tiene un `id` único?
+## ✅ Paso 6: Checkbox y Eliminar {#paso-6}
+
+Para marcar como completada o borrar, usamos métodos de array que no modifican el original:
+
+- **Marcar/Desmarcar**: Usamos `.map()` para cambiar solo esa tarea.
+- **Eliminar**: Usamos `.filter()` para quitar esa tarea.
+
+```tsx
+const toggleTarea = (id) => {
+  setTareas(tareas.map(t => t.id === id ? { ...t, completada: !t.completada } : t));
+};
+
+const eliminarTarea = (id) => {
+  setTareas(tareas.filter(t => t.id !== id));
+};
+```
 
 ---
 
-## 💡 Tip Pro: El error del Texto
-Recuerda que en React Native NO puedes hacer esto:
-`{tareas.length} tareas pendientes` ❌ (Error por texto suelto)
-
-Debes hacer esto:
-`{`${tareas.length} tareas pendientes`}` ✅ (Todo dentro de comillas invertidas)
+## ✅ Checklist Final {#checklist}
+- [ ] ¿El fondo cambia al tocar el Switch?
+- [ ] ¿El input se limpia después de agregar una tarea?
+- [ ] ¿El contador de pendientes se actualiza al tachar una tarea?
+- [ ] ¿Usaste `keyExtractor` con un ID único?
 
 ---
 
-**Última actualización:** Marzo 2026 - Tutorial para estudiantes.
+### 💡 Tip Pro: El error del Texto
+React Native no permite texto "suelto" (fuera de `<Text>`). Si ves el error *"Text strings must be rendered within a <Text> component"*, revisa que no tengas espacios vacíos o variables de texto fuera de sus etiquetas.
+
+---
+
+**Última actualización:** Marzo 2026 - Guía paso a paso unificada.

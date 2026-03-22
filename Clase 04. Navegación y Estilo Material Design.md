@@ -1,104 +1,125 @@
-# Clase 04. Navegación y Estilo Material Design
+# Clase 04. Navegación y Lineamientos de Material Design
 
 ## 📚 Índice
 
-1. [¿Qué es la Navegación?](#navegacion)
-2. [Tipos de Navegadores](#tipos)
-   - [Stack (Pila)](#stack)
-   - [Tabs (Pestañas)](#tabs)
-   - [Drawer (Cajón)](#drawer)
-3. [Instalación de Librerías](#instalacion)
-4. [Material Design: El diseño profesional](#material-design)
-   - [¿Qué es?](#que-es-md)
-   - [React Native Paper](#paper)
-5. [Proyecto Práctico: App con Menú](#proyecto-practico)
-6. [Buenas Prácticas](#buenas-practicas)
-7. [Resumen](#resumen)
+1. [Introducción](#introducción)
+2. [React Navigation: El Estándar](#react-navigation)
+   - [¿Qué es React Navigation?](#qué-es-react-navigation)
+   - [Tipos de Navegadores y Cuándo Usarlos](#tipos-de-navegadores)
+3. [Instalación de Dependencias](#instalación-de-dependencias)
+4. [Configuración con Expo Router](#configuración-expo-router)
+5. [Material Design 3](#material-design)
+   - [Principios de Diseño](#principios-de-material-design)
+   - [React Native Paper](#react-native-paper)
+6. [Estructura de Proyecto Recomendada](#estructura-de-carpetas)
+7. [Manejo de Temas (Context API)](#context-api-para-tema)
+8. [Áreas Seguras (SafeAreaView)](#safeareaview-y-statusbar)
+9. [Proyecto Práctico: App con Navegación](#proyecto-práctico-app-con-navegación)
+10. [Buenas Prácticas](#buenas-prácticas)
 
 ---
 
-## 1. ¿Qué es la Navegación? {#navegacion}
+## 1. Introducción {#introducción}
 
-En una app, no todo sucede en una sola pantalla. La **navegación** es el sistema que nos permite movernos de una pantalla a otra (por ejemplo, de la lista de productos al detalle de uno).
-
-Usaremos la librería estándar: **React Navigation**.
+En esta clase aprenderemos a implementar navegación profesional y a aplicar los principios de **Material Design 3** para que nuestras apps se vean modernas y coherentes.
 
 ---
 
-## 2. Tipos de Navegadores {#tipos}
+## 2. React Navigation: El Estándar {#react-navigation}
 
-### 📚 Stack Navigator (Pila) {#stack}
-Es el más común. Las pantallas se ponen una encima de otra.
-- **Uso**: Para ir a "Detalles" o "Configuración". Cuando vas atrás, quitas la de arriba y ves la anterior.
+**React Navigation** es la biblioteca oficial/estándar para movernos entre pantallas en React Native.
 
-### 📱 Tab Navigator (Pestañas) {#tabs}
-Los botones que ves abajo en apps como Instagram o WhatsApp.
-- **Uso**: Para las secciones principales de la app que quieres tener siempre a mano.
+### Tipos de Navegadores {#tipos-de-navegadores}
 
-### 🗄️ Drawer Navigator (Cajón lateral) {#drawer}
-Un menú que sale de un costado.
-- **Uso**: Para opciones secundarias que no caben abajo o que no usas todo el tiempo.
+| Navegador | Uso | Ejemplo |
+|-----------|-----|---------|
+| **Stack** | Pila de pantallas (LIFO) | Lista → Detalle |
+| **Tabs** | Barra inferior/superior | Inicio, Perfil, Ajustes |
+| **Drawer** | Menú lateral deslizable | Configuraciones avanzadas |
 
 ---
 
-## 3. Instalación {#instalacion}
+## 3. Instalación de Dependencias {#instalación-de-dependencias}
 
-Para que la navegación funcione, necesitamos varias piezas. Ejecuta este comando (todo junto):
+Para que todo funcione (gestos, animaciones, áreas seguras), necesitamos varios paquetes:
 
 ```bash
-npx expo install @react-navigation/native @react-navigation/native-stack @react-navigation/bottom-tabs react-native-screens react-native-gesture-handler react-native-safe-area-context react-native-reanimated react-native-paper @expo/vector-icons
+npx expo install @react-navigation/native @react-navigation/native-stack @react-navigation/bottom-tabs react-native-screens react-native-gesture-handler react-native-safe-area-context react-native-reanimated react-native-paper @expo/vector-icons expo-status-bar
 ```
 
 ---
 
-## 4. Material Design: El diseño profesional {#material-design}
+## 4. Configuración con Expo Router {#configuración-expo-router}
 
-### ✨ ¿Qué es? {#que-es-md}
-Es un conjunto de reglas creado por Google para que las aplicaciones se vean limpias, usen sombras realistas y colores que combinan bien. Ayuda a que el usuario sepa qué es un botón y qué es solo texto.
-
-### 🧩 React Native Paper {#paper}
-Es una librería de componentes que ya siguen las reglas de Material Design. En lugar de crear un botón desde cero, usas un `<Button>` de Paper que se ve profesional de inmediato.
-
-| Componente | Para qué sirve |
-|------------|----------------|
-| **Card**   | Para mostrar información en "tarjetas" con sombra. |
-| **FAB**    | El botón flotante redondo (como el de "Nuevo Mensaje"). |
-| **Appbar** | La barra de arriba con el título de la app. |
+**⚠️ MUY IMPORTANTE:** Si usas Expo Router (la carpeta `app/`), **NO** agregues el componente `<NavigationContainer>`. Expo ya lo trae puesto "por detrás". Si lo pones tú, la app dará un error de "nested NavigationContainer".
 
 ---
 
-## 5. Proyecto Práctico: App con Menú {#proyecto-practico}
+## 5. Material Design 3 {#material-design}
 
-### Objetivo
-Crear una app que tenga una pantalla de Inicio y una de Perfil, navegables mediante botones abajo (Tabs).
+Es el sistema de diseño de Google. Buscamos:
+- **Jerarquía**: Que lo importante resalte.
+- **Elevación**: Sombras para separar elementos.
+- **Feedback**: Que el botón reaccione al tocarlo.
 
-### Pasos Generales
-1. **Configurar el Layout**: En `_layout.tsx`, define qué pantallas tendrá tu menú.
-2. **Crear Pantallas**: Haz dos archivos, `index.tsx` (Inicio) y `profile.tsx` (Perfil).
-3. **Usar Paper**: Agrega una `Card` en Inicio para mostrar una bienvenida.
-4. **Navegar**: Agrega un botón que use `navigation.navigate('Profile')` para saltar de una a otra.
+### React Native Paper
+Es la librería que ya trae los botones, cards y menús de Material Design listos para usar:
+```tsx
+import { Button, Card, Text } from 'react-native-paper';
 
----
-
-## ✅ Buenas Prácticas {#buenas-practicas}
-
-- **No anides demasiado**: No metas un Stack dentro de un Stack dentro de un Tab. Trata de que la navegación sea simple para el usuario.
-- **Iconos claros**: Usa iconos de `@expo/vector-icons` que el usuario reconozca fácilmente (una casita para inicio, un engranaje para ajustes).
-- **Espaciado Mágico**: En Material Design se usa mucho el múltiplo de 8. Si necesitas margen, usa 8, 16, 24 o 32. Evita números "raros" como 13 o 17.
-
----
-
-## 📝 Resumen {#resumen}
-
-### Conceptos Clave Aprendidos
-1. **React Navigation**: El motor que mueve las pantallas.
-2. **Tabs y Stacks**: Las formas de organizar nuestras pantallas.
-3. **Material Design**: La guía para que nuestra app se vea increíble.
-
-### Próximos Pasos
-- Experimenta cambiando los iconos de tus pestañas abajo.
-- Intenta crear una pantalla de "Detalles" que se abra encima de la actual usando un Stack.
+<Card>
+  <Card.Content>
+    <Text variant="titleLarge">Producto</Text>
+    <Button mode="contained">Comprar</Button>
+  </Card.Content>
+</Card>
+```
 
 ---
 
-**Última actualización:** Marzo 2026 - Guía para estudiantes.
+## 6. Estructura de Proyecto Recomendada {#estructura-de-carpetas}
+
+Organiza tu código para que no sea un caos:
+```text
+app/
+  ├── context/    # Estado global (ej: Tema oscuro)
+  ├── navigation/ # Configuración de Stacks/Tabs
+  ├── screens/    # Tus pantallas (Home, Login, etc.)
+  ├── styles/     # Colores y fuentes compartidas
+  └── theme/      # Definición de colores Material
+```
+
+---
+
+## 7. Manejo de Temas (Context API) {#context-api-para-tema}
+
+Usamos **Context API** para que toda la app sepa si estamos en modo oscuro o claro sin tener que pasar "props" de pantalla en pantalla.
+
+---
+
+## 8. Áreas Seguras (SafeAreaView) {#safeareaview-y-statusbar}
+
+Los teléfonos modernos tienen "notches" (agujeros de cámara) y barras de navegación en la parte inferior.
+- Usa **`SafeAreaView`** para que tu contenido no quede tapado por el reloj o la cámara.
+- **StatusBar**: Configúralo para que sea blanco en modo oscuro y negro en modo claro.
+
+---
+
+## 9. Proyecto Práctico: App con Navegación {#proyecto-práctico-app-con-navegación}
+
+Crearemos una app que tenga:
+1. Una barra inferior (**Tabs**) para "Inicio" y "Perfil".
+2. Dentro de "Inicio", un **Stack** para ir de una lista de productos a los detalles de cada uno.
+3. Componentes de **React Native Paper** (Cards para los productos).
+
+---
+
+## ✍️ Buenas Prácticas
+
+- ✅ **Múltiplos de 8**: Usa márgenes y paddings de 8, 16, 24, 32... así todo se ve alineado.
+- ✅ **Tipo de Navegador**: No uses Drawer si solo tienes 2 pantallas; mejor usa Tabs.
+- ✅ **Feedback**: Siempre usa `TouchableOpacity` o botones de Paper para que el usuario sepa que "clickeó" correctamente.
+
+---
+
+**Última actualización:** Marzo 2026 - Guía de aprendizaje unificada.

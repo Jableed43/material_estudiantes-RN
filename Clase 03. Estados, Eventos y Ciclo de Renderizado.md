@@ -2,133 +2,123 @@
 
 ## 📚 Índice
 
-1. [¿Qué es el Estado?](#que-es-estado)
-2. [El Hook `useState`](#usestate)
-   - [Sintaxis y Uso](#sintaxis)
-   - [Actualización Correcta (Inmutabilidad)](#actualizacion)
-3. [Manejo de Eventos](#eventos)
-   - [onPress, onChangeText y más](#eventos-comunes)
-4. [Componentes para Listas e Interactividad](#componentes)
-   - [FlatList: Listas Optimizadas](#flatlist)
-5. [El Ciclo de Renderizado](#renderizado)
-6. [Proyecto Práctico: TODO List](#proyecto-practico)
-7. [Buenas Prácticas](#buenas-practicas)
-8. [Resumen](#resumen)
+1. [El Corazón de React: ¿Qué es el Estado?](#que-es-estado)
+2. [useState Hook (Usar memoria en componentes)](#usestate-hook)
+3. [Manejo de Eventos en Mobile](#eventos-mobile)
+   - [Diferencias con React Web](#diferencias-web)
+   - [onPress vs onClick](#on-press)
+   - [onChangeText: Capturar el teclado](#on-change-text)
+4. [Componentes Listas (FlatList)](#flatlist)
+5. [SafeAreaView: Evitando el Notch](#safeareaview)
+6. [Renderizado Condicional (Mostrar/Ocultar cosas)](#render-condicional)
+7. [Proyecto Práctico: Mi Primera Todo List](#proyecto-practico)
+8. [Resumen y Buenas Prácticas](#resumen)
 
 ---
 
-## 1. ¿Qué es el Estado? {#que-es-estado}
+## 1. El Estado (`useState`) {#que-es-estado}
 
-**El estado es la "memoria" de tu componente.**
-
-Imagina que tu aplicación es un formulario. Cuando el usuario escribe su nombre, ese nombre debe guardarse en algún lugar para que la app lo sepa. Ese "lugar" es el **estado**.
-
-**Para qué sirve:**
-- **Interactividad**: Permite que la app reaccione a lo que hace el usuario.
-- **Dinamismo**: La pantalla se actualiza solita cuando el estado cambia.
-
----
-
-## 2. El Hook `useState` {#usestate}
-
-### 🛠️ Sintaxis y Uso {#sintaxis}
+Las apps no son estáticas. Necesitan recordar datos (texto, checks, contadores).
+- El **estado** es la memoria interna del componente.
+- Cada vez que el estado cambia, React vuelve a dibujar (renderizar) la pantalla.
 
 ```javascript
 import { useState } from 'react';
 
-const [valor, setValor] = useState(inicial);
+const MiComponente = () => {
+  // valor: Dato actual | setValor: Función para cambiarlo
+  const [contador, setContador] = useState(0);
+
+  return <Text>Contador: {contador}</Text>;
+};
 ```
 
-- **`valor`**: Es el dato guardado (como el número de un contador).
-- **`setValor`**: Es la ÚNICA función autorizada para cambiar ese dato.
-
-### ⚠️ Regla de Oro: Inmutabilidad {#actualizacion}
-
-**¡Nunca cambies el estado directamente!**
-
-```javascript
-// ❌ INCORRECTO (La pantalla no se enterará del cambio)
-usuario.nombre = "Pepe"; 
-
-// ✅ CORRECTO (React detecta el cambio y refresca la pantalla)
-setUsuario({ ...usuario, nombre: "Pepe" });
-```
+⚠️ **Regla de oro**: El estado es **inmutable**. Nunca hagas `contador = 5`. Debes usar `setContador(5)`.
 
 ---
 
-## 3. Manejo de Eventos {#eventos}
+## 2. Manejo de Eventos {#eventos-mobile}
 
-Los eventos son las acciones que ocurren en la app (un click, un texto que cambia, un scroll).
+En el celular **no existe el evento click**, existe el **press** (presionar con el dedo).
 
-### 📋 Eventos más Comunes {#eventos-comunes}
-
-| Evento | Cuándo ocurre |
-|--------|---------------|
-| `onPress` | Cuando el usuario toca un botón o elemento. |
-| `onChangeText` | Cuando el usuario escribe en un campo de texto. |
-| `onValueChange` | Cuando mueves un interruptor (Switch). |
-| `onLongPress` | Cuando mantienes presionado un elemento por un segundo. |
-
----
-
-## 4. Componentes Clave {#componentes}
-
-### 📜 FlatList: Listas Inteligentes {#flatlist}
-
-Si tienes 1000 items, **no uses ScrollView**. Usa **`FlatList`**.
-**¿Por qué?** Porque `FlatList` solo dibuja en pantalla los elementos que el usuario está viendo en ese momento, ahorrando muchísima memoria.
+### Comparativa Web vs Mobile
+| Evento Web | Evento React Native | Componente |
+|------------|---------------------|------------|
+| `onClick` | `onPress` | Button / Touchable |
+| `onChange` | `onChangeText` | TextInput |
+| `onSubmit` | `onPress` (en un botón) | Formulario manual |
 
 ```javascript
-<FlatList
-  data={misDatos}
-  renderItem={({ item }) => <Text>{item.nombre}</Text>}
-  keyExtractor={item => item.id}
+<TextInput 
+  placeholder="Escribe algo..." 
+  onChangeText={(texto) => setMitetxto(texto)} 
 />
 ```
 
 ---
 
-## 5. El Ciclo de Renderizado {#renderizado}
+## 3. Listas Eficientes con `FlatList` {#flatlist}
 
-**¿Qué pasa cuando haces `setAlgo(...)`?**
-1. React recibe el nuevo valor.
-2. React vuelve a ejecutar la función de tu componente (**Re-render**).
-3. React compara qué cambió y actualiza solo esa partecita en la pantalla del celular.
+Si tienes 100 o 1000 elementos, **NO** uses un `map()`. Se volverá lento.
+- ✅ **FlatList**: Solo dibuja lo que el usuario ve en pantalla. Es ultra rápido.
+- Necesita: `data` (la lista) y `renderItem` (cómo se ve cada elemento).
+
+```javascript
+<FlatList
+  data={misTareas}
+  keyExtractor={(item) => item.id}
+  renderItem={({ item }) => <Text>{item.titulo}</Text>}
+/>
+```
 
 ---
 
-## 6. Proyecto Práctico: TODO List {#proyecto-practico}
+## 4. SafeAreaView {#safeareaview}
+
+Los celulares modernos tienen notches (agujeros para la cámara) y barras de navegación.
+- **SafeAreaView** empuja el contenido para que no quede tapado por el hardware.
+- 📦 **Uso recomendado**: Usa el de `react-native-safe-area-context`.
+
+---
+
+## 5. Renderizado Condicional {#render-condicional}
+
+Podemos mostrar u ocultar componentes usando lógica simple:
+
+```javascript
+{ estaLogueado ? <Perfil /> : <BotónLogin /> }
+```
+
+O si solo queremos mostrar algo si se cumple una condición:
+```javascript
+{ mostrarError && <Text style={{ color: 'red' }}>Algo salió mal</Text> }
+```
+
+---
+
+## 6. Proyecto Práctico: Mi Primera Todo List {#proyecto-practico}
 
 ### Objetivo
-Crear una lista de tareas donde puedas agregar, tachar y borrar pendientes.
+Construir una aplicación funcional donde puedas escribir una tarea, agregarla a la lista y borrarla.
 
 ### Pasos Generales
-1. **Estado de Lista**: Crea un array `const [tareas, setTareas] = useState([])`.
-2. **Agregar**: Crea una función que use `setTareas([...tareas, nuevaTarea])`.
-3. **Renderizar**: Usa un `FlatList` para mostrar cada tarea.
-4. **Interactividad**: Usa un `Switch` o un `Pressable` para marcar como completada.
+1. Crear un estado para el texto del input (`const [tarea, setTarea] = useState("");`).
+2. Crear un estado para el arreglo de tareas (`const [lista, setLista] = useState([]);`).
+3. Función `agregarTarea`: Toma el texto del input y lo añade al arreglo usando el operador spread `...lista`.
+4. Mostrar las tareas usando un `<FlatList>`.
+5. Agregar un botón de borrar para cada tarea.
+
+### Resultado Final
+Una lista de tareas dinámica e interactiva que demuestra el ciclo completo de renderizado.
 
 ---
 
-## ✅ Buenas Prácticas {#buenas-practicas}
+## ✅ Tips de Clase
 
-- **Keys Únicas**: Siempre dale un `id` único a cada elemento de una lista. Evita usar el índice (0, 1, 2...) como ID.
-- **Funciones de Actualización**: Si el nuevo valor depende del anterior (como un contador), usa `setContador(prev => prev + 1)`.
-- **Validación**: Usa `.trim()` en los textos para evitar que el usuario agregue tareas vacías.
-
----
-
-## 📝 Resumen {#resumen}
-
-### Conceptos Clave Aprendidos
-1. **useState**: La herramienta para que la app "recuerde" cosas.
-2. **Re-render**: El proceso de actualización visual.
-3. **FlatList**: La forma profesional de mostrar listas largas.
-
-### Próximos Pasos
-- Mira la **Guía de TODO List** para ver el código completo paso a paso.
-- Intenta agregar un botón de "Borrar todo" a tu proyecto.
+- ✅ **Spread Operator (...)**: Úsalo para actualizar arreglos y objetos sin mutarlos.
+- ✅ **Teclado**: Usa `keyboardType="numeric"` si solo vas a pedir números.
+- ✅ **Keys**: Asegúrate de que cada item de tu lista tenga una `id` única.
 
 ---
 
-**Última actualización:** Marzo 2026 - Guía de aprendizaje para estudiantes.
+**Última actualización:** Marzo 2026 - Guía de aprendizaje unificada.

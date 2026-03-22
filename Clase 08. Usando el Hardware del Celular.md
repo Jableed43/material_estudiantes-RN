@@ -1,105 +1,90 @@
-# Clase 08. Usando el Hardware del Celular (Sensores, Cámara y GPS)
+# Clase 08. Usando el Hardware del Celular
 
 ## 📚 Índice
 
-1. [¿Qué es el acceso nativo?](#que-es-nativo)
-2. [La regla de oro: Los Permisos](#permisos)
-3. [Usando la Cámara](#camara)
-4. [GPS y Ubicación](#gps)
-5. [Sensores (Movimiento y Giro)](#sensores)
-6. [Proyecto Práctico: App 007 - Super Herramientas](#proyecto-practico)
-7. [Buenas Prácticas](#buenas-practicas)
-8. [Resumen](#resumen)
+1. [Introducción al acceso nativo](#introduccion)
+2. [Gestión de Permisos (La llave del hardware)](#gestion-permisos)
+3. [La Cámara (expo-camera)](#camara)
+4. [Audio: Grabación y Reproducción (expo-av)](#audio)
+5. [Ubicación GPS (expo-location)](#ubicacion)
+6. [Sensores: El movimiento del celular](#sensores)
+7. [Proyecto Práctico: App de Captura](#proyecto-practico)
+8. [Buenas Prácticas](#resumen)
 
 ---
 
-## 1. ¿Qué es el acceso nativo? {#que-es-nativo}
+## 1. Introducción al acceso nativo {#introduccion}
 
-Hasta ahora nuestras apps eran solo texto y botones. El **acceso nativo** significa que nuestra app puede "hablar" con el hardware del teléfono: la cámara, el chip de GPS, el micrófono o los sensores de movimiento.
-
-Gracias a **Expo**, no necesitamos saber lenguajes complicados como Swift o Kotlin; lo hacemos todo con JavaScript.
+React Native nos permite usar el hardware del teléfono (cámara, GPS, sensores) escribiendo solo JavaScript. Gracias a **Expo**, no necesitamos saber programar en Android (Java) o iOS (Swift) para encender la cámara o saber dónde está el usuario.
 
 ---
 
-## 2. La regla de oro: Los Permisos {#permisos}
+## 2. Gestión de Permisos {#gestion-permisos}
 
-Por seguridad, no puedes usar la cámara de alguien sin que él te deje. 
-
+Por seguridad, Apple y Google no dejan que cualquier app use la cámara sin preguntar.
 **Flujo de permisos:**
-1. **Preguntar**: "Hola, ¿me dejas usar la cámara para tu foto de perfil?".
-2. **Esperar**: El usuario dice "Sí" o "No".
-3. **Actuar**: Solo si dijo que sí, abrimos el hardware.
+1. **Preguntar**: "Hola usuario, ¿me dejas usar la cámara?"
+2. **Esperar**: El usuario acepta o rechaza.
+3. **Actuar**: Si acepta, prendemos la cámara. Si rechaza, le explicamos por qué la necesitamos.
 
-> **Tip para estudiantes**: Si el usuario dice que no una vez, el celular suele recordar esa respuesta. Tendrás que ir a los Ajustes del celular para cambiarlo manualmente.
+```tsx
+const [status, requestPermission] = useCameraPermissions();
 
----
-
-## 3. Usando la Cámara {#camara}
-
-Usamos la librería `expo-camera`. 
-
-```javascript
-const [permiso, pedirPermiso] = useCameraPermissions();
-
-// Para tomar la foto:
-const foto = await cameraRef.current.takePictureAsync();
-console.log(foto.uri); // Aquí está la ruta de la imagen guardada
+if (!status.granted) {
+  return <Button title="Pedir Permiso" onPress={requestPermission} />
+}
 ```
 
 ---
 
-## 4. GPS y Ubicación {#gps}
+## 3. La Cámara (expo-camera) {#camara}
 
-Con `expo-location` podemos saber exactamente dónde está el usuario (Latitud y Longitud).
-- **Útil para**: Apps de mapas, clima o delivery.
-
-```javascript
-const location = await Location.getCurrentPositionAsync({});
-console.log(location.coords.latitude, location.coords.longitude);
-```
+Podemos integrar una vista de cámara directamente en nuestra app.
+- **`facing`**: Para elegir cámara frontal o trasera.
+- **`takePictureAsync`**: Para capturar la imagen y guardarla en el celular.
 
 ---
 
-## 5. Sensores (Movimiento) {#sensores}
+## 4. Audio (expo-av) {#audio}
 
-Tu celular tiene un **Acelerómetro**. Sabe si lo estás agitando, si está acostado o si estás caminando.
-- **Dato curioso**: Así es como los juegos de carreras saben cuándo giras el teléfono como un volante.
-
----
-
-## 6. Proyecto Práctico: App de Herramientas {#proyecto-practico}
-
-### Objetivo
-Crear una app con 3 botones:
-1. **"Foto"**: Abre la cámara y saca una foto.
-2. **"Donde estoy"**: Muestra tu dirección actual usando el GPS.
-3. **"Nivel"**: Usa el acelerómetro para decirte si el teléfono está derecho.
-
-### Pasos
-- Instala las librerías necesarias con `npx expo install`.
-- Crea una pantalla para cada herramienta.
-- **¡No olvides pedir los permisos al entrar a cada pantalla!**
+Con este módulo podemos hacer dos cosas:
+1. **Grabar**: Usar el micrófono para crear archivos de audio.
+2. **Reproducir**: Escuchar sonidos locales o música de internet.
 
 ---
 
-## ✅ Buenas Prácticas {#buenas-practicas}
+## 5. Ubicación GPS (expo-location) {#ubicacion}
 
-- **Pide permisos solo cuando los necesites**: No pidas permiso de cámara apenas se abre la app si el usuario todavía no quería sacar una foto.
-- **Explica por qué**: "Necesito el GPS para decirte dónde está el cajero más cercano".
-- **Limpia los sensores**: Si usas el acelerómetro y sales de esa pantalla, apágalo. Si no, ¡la batería del celular se agotará rapidísimo!
-
----
-
-## 📝 Resumen {#resumen}
-
-### Conceptos Clave Aprendidos
-1. **Módulos Expo**: Herramientas listas para usar el hardware.
-2. **Async/Await**: Vital para esperar a que el hardware responda.
-3. **granted/denied**: Los dos estados de un permiso.
-
-### Próximos Pasos
-- ¿Puedes hacer que el celular vibre cuando el usuario presiona un botón? (Busca `expo-haptics`).
+Permite obtener las coordenadas (latitud y longitud) del usuario.
+- **`getCurrentPositionAsync`**: Obtener la posición una sola vez.
+- **`watchPositionAsync`**: Seguir al usuario mientras camina (ideal para apps de mapas o delivery).
 
 ---
 
-**Última actualización:** Marzo 2026 - Guía para estudiantes.
+## 6. Sensores (expo-sensors) {#sensores}
+
+Tu celular está lleno de sensores:
+- **Acelerómetro**: Sabe si el teléfono se mueve o se sacude.
+- **Giroscopio**: Sabe hacia dónde está rotando el celular (útil para juegos).
+- **Podómetro**: Cuenta los pasos que das en el día.
+
+---
+
+## 7. Proyecto Práctico: App de Captura {#proyecto-practico}
+
+Construiremos una app que:
+1. Pida permiso para usar la **Cámara**.
+2. Al sacar una foto, guarde también la **Ubicación GPS** de dónde se tomó.
+3. Muestre en pantalla si el celular se está moviendo usando el **Acelerómetro**.
+
+---
+
+## ✅ Buenas Prácticas
+
+- ✅ **Pide permiso justo a tiempo**: No pidas el GPS apenas abre la app, pídelo cuando el usuario quiera usar el mapa.
+- ✅ **Explica el porqué**: Siempre pon un texto amigable: "Necesitamos tu ubicación para mostrarte los locales cercanos".
+- ✅ **Limpieza**: Si activas el GPS o un sensor, asegúrate de apagarlo cuando el usuario salga de esa pantalla para no gastar batería.
+
+---
+
+**Última actualización:** Marzo 2026 - Guía de aprendizaje unificada.

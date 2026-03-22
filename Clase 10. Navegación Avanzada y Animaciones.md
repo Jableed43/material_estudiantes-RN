@@ -2,91 +2,84 @@
 
 ## 📚 Índice
 
-1. [Tabs: El menú de abajo](#tabs)
-2. [Drawer: El menú lateral](#drawer)
-3. [Animaciones con Framer Motion](#animaciones)
-4. [Microinteracciones: Detalles que importan](#microinteracciones)
-5. [Proyecto Práctico: App con Estilo Premium](#proyecto-practico)
-6. [Resumen](#resumen)
+1. [Navegación con Pestañas (Tabs)](#navegacion-tabs)
+2. [Menú Lateral (Drawer)](#navegacion-drawers)
+3. [Navegación Anidada: Mezclando todo](#drawers-anidacion)
+4. [Introducción a las Animaciones](#framer-motion)
+5. [Framer Motion en React Native (@legendapp/motion)](#framer-instalacion)
+6. [Microinteracciones: Feedback al usuario](#microinteracciones)
+7. [Proyecto Práctico: App con Flujo Completo](#proyecto-practico)
+8. [Resumen y Buenas Prácticas](#resumen)
 
 ---
 
-## 1. Tabs: El menú de abajo {#tabs}
+## 1. Navegación con Pestañas (Tabs) {#navegacion-tabs}
 
-Es la forma más común de navegar en apps modernas (como Instagram o WhatsApp). Tienes 3 o 4 secciones fijas abajo.
-- **Ideal para**: Secciones que el usuario usa todo el tiempo.
-- **Truco**: Puedes poner "badges" (globos rojos) cuando hay notificaciones.
-
----
-
-## 2. Drawer: El menú lateral {#drawer}
-
-Es el menú que "sale" de un costado cuando tocas las 3 rayitas (hamburguesa).
-- **Ideal para**: Configuración, Perfil, Cerrar Sesión, o apps con muchísimas pantallas.
-- **Anidación**: Puedes tener un menú lateral y que dentro de una opción haya pestañas abajo. ¡Se pueden combinar!
+Las **Tabs** son la forma más común de navegar en apps como Instagram o Spotify. Permiten saltar entre las secciones principales de forma instantánea.
+- **Uso**: 3 a 5 secciones máximo.
+- **Personalización**: Podemos agregarle iconos y hasta "badges" (globitos rojos de notificaciones).
 
 ---
 
-## 3. Animaciones con Framer Motion {#animaciones}
+## 2. Menú Lateral (Drawer) {#navegacion-drawers}
 
-Para que tu app no se sienta "seca" o aburrida, usamos animaciones. En React Native usamos `@legendapp/motion`.
+El **Drawer** es el panel que se desliza desde el costado.
+- **Cuándo elegirlo**: Cuando tienes muchas pantallas o configuraciones que no caben en la barra de abajo.
+- **Dato técnico**: Usa `react-native-reanimated` para que el movimiento sea fluido.
 
-**Estados de una animación:**
-- **Initial**: Cómo empieza (ej: invisible y chiquito).
-- **Animate**: Cómo termina (ej: visible y tamaño normal).
-- **Transition**: Qué tan rápido o "rebotín" es el movimiento.
+---
 
-```javascript
-<Motion.View
-  initial={{ opacity: 0, scale: 0.5 }}
-  animate={{ opacity: 1, scale: 1 }}
-  transition={{ type: 'spring' }} // ¡Efecto rebote!
+## 3. Navegación Anidada {#drawers-anidacion}
+
+En una app real, sueles tener un **Drawer** para el menú general, y adentro de una de esas pantallas tienes **Tabs** para navegar sub-secciones.
+- **Truco**: Cada navegación es un componente independiente que "habla" con el resto.
+
+---
+
+## 4. Animaciones con Framer Motion {#framer-instalacion}
+
+¿Por qué usar animaciones?
+- Hacen que la app no se sienta "dura".
+- Ayudan al usuario a entender qué pasó (ej: si algo desaparece, que se desvanezca suavemente).
+
+Usaremos **`@legendapp/motion`**, que es la versión de Framer Motion optimizada para celulares.
+
+---
+
+## 5. Microinteracciones {#microinteracciones}
+
+Son las animaciones "chiquitas":
+- Un botón que se achica un poquito cuando lo tocas.
+- Una tarjeta que rebota al entrar a la pantalla.
+- Un check que se anima cuando marcas una tarea como lista.
+
+```tsx
+<Motion.Pressable 
+  whileTap={{ scale: 0.9 }} 
+  onPress={hacerAlgo}
 >
-  <Text>¡Hola!</Text>
-</Motion.View>
+  <Text>Presióname</Text>
+</Motion.Pressable>
 ```
 
 ---
 
-## 4. Microinteracciones: Detalles que importan {#microinteracciones}
+## 6. Proyecto Práctico: App con Flujo Completo {#proyecto-practico}
 
-Son pequeñas reacciones visuales. No cambian la app, pero la hacen sentir "viva".
-- **Ejemplo**: Que el botón se achique un poquito cuando lo presionas.
-- **Ejemplo**: Que un input brille de color verde cuando escribes bien tu mail.
-
----
-
-## 5. Proyecto Práctico: App con Estilo Premium {#proyecto-practico}
-
-### Objetivo
-Hacer una app que use un menú de pestañas abajo y que al cambiar de pantalla, el contenido aparezca con un efecto suave de "fade in".
-
-### Pasos
-1. **Tabs**: Crea un `Tab.Navigator`.
-2. **Iconos**: Usa `@expo/vector-icons` para que cada pestaña tenga un dibujo lindo.
-3. **Motion**: Envuelve el contenido de tus pantallas en un `<Motion.View>` para que aparezcan suavemente.
+Crearemos una app que tenga:
+1. Un **Drawer** lateral.
+2. Un sistema de **Tabs** para "Home" y "Perfil".
+3. Animaciones de entrada en cada lista de elementos.
+4. Botones con **microinteracciones** de escala al tocarlos.
 
 ---
 
-## ✅ Buenas Prácticas {#buenas-practicas}
+## ✅ Buenas Prácticas
 
-- **No exageres**: Si todo se mueve, rebota y brilla al mismo tiempo, el usuario se va a marear. Menos es más.
-- **Consistencia**: Si un botón se achica al tocarlo, que todos los botones de la app hagan lo mismo.
-- **Iconos claros**: No uses iconos raros. Si es "Inicio", usa una casita. Si es "Perfil", un monigote.
-
----
-
-## 📝 Resumen {#resumen}
-
-### Conceptos Clave Aprendidos
-1. **Tabs**: Navegación principal rápida.
-2. **Drawer**: Navegación secundaria con mucho espacio.
-3. **Framer Motion**: Animaciones fáciles y potentes.
-4. **Spring**: La transición que imita la física real (rebote).
-
-### Próximos Pasos
-- Intenta animar una lista para que los elementos aparezcan uno por uno con un pequeño retraso (`delay`). ¡Se ve muy profesional!
+- ✅ **Menos es más**: No animes todo, o el usuario se va a marear. Anima solo lo que da información útil.
+- ✅ **Performance**: Usa `Reanimated` y librerías livianas para no gastar batería de más.
+- ✅ **Consistencia**: Si un botón se achica al tocarlo, que todos los botones de la app hagan lo mismo.
 
 ---
 
-**Última actualización:** Marzo 2026 - Guía para estudiantes.
+**Última actualización:** Marzo 2026 - Guía de aprendizaje unificada.

@@ -2,92 +2,101 @@
 
 ## 📚 Índice
 
-1. [¿Qué es un Theme (Tema)?](#que-es-theme)
-2. [Context API: Compartir sin complicarse](#context-api)
-   - [¿Para qué sirve?](#para-que)
-   - [Provider y Consumer](#componentes)
-3. [Paleta de Colores Profesional](#colores)
-4. [Implementando el Modo Oscuro global](#implementacion)
-5. [Proyecto Práctico: App con Colores Inteligentes](#proyecto-practico)
-6. [Buenas Prácticas](#buenas-practicas)
-7. [Resumen](#resumen)
+1. [Introducción al Theming](#introducción)
+2. [Context API: Compartir datos en toda la app](#context-api)
+3. [Creando una Paleta de Colores (Claro vs Oscuro)](#paleta-de-colores)
+4. [Implementación: El ThemeProvider](#implementación-de-theming-con-context-api)
+5. [Consumiendo el tema en tus componentes](#consumir-el-tema-en-componentes)
+6. [Organización de Archivos](#organización-de-estilos)
+7. [Proyecto Práctico: App Multi-Tema](#proyecto-práctico-aplicar-theming-a-la-app-de-usuarios)
+8. [Buenas Prácticas](#buenas-prácticas-con-theming)
 
 ---
 
-## 1. ¿Qué es un Theme (Tema)? {#que-es-theme}
+## 1. Introducción al Theming {#introducción}
 
-Un **Theme** es el manual de estilo de tu app. En lugar de decir "este botón es azul" en 20 archivos diferentes, dices "el color primario de mi app es azul" en **un solo lugar**.
-
-**Ventajas:**
-- **Consistencia**: Toda la app se ve igual.
-- **Fácil cambio**: Si quieres pasar de azul a verde, lo cambias en un segundo.
-- **Modo Oscuro**: Es la forma correcta de intercambiar entre blanco y negro.
+Un **Theme** (tema) es el ADN visual de tu aplicación. Centraliza colores, tipografías y espaciados para que no tengas que escribir `#FF5533` en cada archivo. Si decides cambiar el color principal de la marca, lo haces en un solo lugar y toda la app se actualiza.
 
 ---
 
-## 2. Context API: Compartir sin complicarse {#context-api}
+## 2. Context API {#context-api}
 
-### ¿Para qué sirve? {#para-que}
-Imagina que tienes una caja con la configuración del "Modo Oscuro". Sin Context API, tendrías que pasar esa caja de mano en mano por cada pantalla de la app (**Prop Drilling**).
-Con **Context API**, la caja flota sobre la app y cualquier pantalla puede tomarla cuando quiera.
-
-### Componentes clave {#componentes}
-- **Provider (Proveedor)**: Es quien tiene la información y la reparte.
-- **useContext (Consumidor)**: Es el hook que usamos en cada pantalla para "leer" la información.
+Para que todos los componentes (botones, textos, fondos) sepan si deben ser blancos o negros, usamos **Context API**.
+- **createContext**: Crea el "canal" de comunicación.
+- **Provider**: El "emisor" que rodea toda la app.
+- **useContext**: El "receptor" que usa cada componente para leer el tema.
 
 ---
 
-## 3. Paleta de Colores Profesional {#colores}
+## 3. Paleta de Colores {#paleta-de-colores}
 
-No uses nombres como `rojo` o `azul`. Usa nombres de **función**:
-- **Primary**: Para botones principales.
-- **Background**: Para el fondo de la pantalla.
-- **Surface**: Para tarjetas (cards).
-- **Error**: Para mensajes de alerta.
+No uses nombres como `azul` o `rojo`. Usa **nombres semánticos**:
+- `primary`: El color de tus botones principales.
+- `background`: El fondo de la pantalla.
+- `text`: El color de las letras.
+- `error`: Para mensajes de alerta.
 
----
-
-## 4. Implementando el Modo Oscuro global {#implementacion}
-
-Para que tu app cambie de color en todas las pantallas al mismo tiempo, sigue este flujo:
-
-1. **Crear el Contexto**: `const ThemeContext = createContext()`.
-2. **Proveerlo**: En el archivo raíz (`_layout.tsx`), envuelve todo en `<ThemeContext.Provider value={{...}}>`.
-3. **Usarlo**: En tus pantallas, usa `const { colors } = useTheme()`.
+Así, en el **Modo Oscuro**, `background` será negro y `text` será blanco, pero el nombre de la variable sigue siendo el mismo.
 
 ---
 
-## 5. Proyecto Práctico: App con Colores Inteligentes {#proyecto-practico}
+## 4. El ThemeProvider {#implementación-de-theming-con-context-api}
 
-### Objetivo
-Hacer que tu app de usuarios cambie de color automáticamente al presionar un botón de "Sol/Luna".
+Es el componente "padre" que maneja el estado.
+```tsx
+export function ThemeProvider({ children }) {
+  const [isDark, setIsDark] = useState(false);
+  const colors = isDark ? darkColors : lightColors;
 
-### Pasos
-1. **Definir colores**: Crea un archivo `theme.ts` con un objeto para `light` y otro para `dark`.
-2. **Contexto**: Crea el `ThemeProvider` que cambie de uno a otro.
-3. **Estilos**: En tus componentes, no escribas `color: 'white'`. Escribe `color: colors.text`.
-
----
-
-## ✅ Buenas Prácticas {#buenas-practicas}
-
-- **Nunca hardcodees colores**: Si escribes `#FFFFFF` en un componente, estás rompiendo el modo oscuro. Usa siempre el theme.
-- **Usa un Hook personalizado**: Crea un hook llamado `useTheme()` para que sea más fácil de usar en tus pantallas.
-- **StatusBar**: Recuerda que si el fondo es negro, las letras del reloj de tu celular deben ser blancas. ¡Cambia el `StatusBar` también!
+  return (
+    <ThemeContext.Provider value={{ isDark, colors, toggleTheme: () => setIsDark(!isDark) }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+}
+```
 
 ---
 
-## 📝 Resumen {#resumen}
+## 5. Consumiendo el tema {#consumir-el-tema-en-componentes}
 
-### Conceptos Clave Aprendidos
-1. **Theming**: Estilos centralizados.
-2. **Context API**: La nube de datos de tu app.
-3. **Prop Drilling**: Lo que queremos evitar (pasar datos innecesariamente).
+En cualquier pantalla de tu app, usas el hook **`useTheme`**:
+```tsx
+const { colors } = useTheme();
 
-### Próximos Pasos
-- ¿Ya definiste tu paleta de colores? ¡Intenta buscar paletas en [Adobe Color](https://color.adobe.com)!
-- Asegúrate de que los textos tengan suficiente contraste para que se puedan leer bien.
+return (
+  <View style={{ backgroundColor: colors.background }}>
+    <Text style={{ color: colors.text }}>Hola!</Text>
+  </View>
+);
+```
 
 ---
 
-**Última actualización:** Marzo 2026 - Guía para estudiantes.
+## 6. Organización de Archivos {#organización-de-estilos}
+
+Recomendamos esta estructura:
+- `constants/theme.ts`: Solo los códigos de colores.
+- `context/ThemeContext.tsx`: La lógica del Provider y el Hook.
+- `app/_layout.tsx`: Donde envuelves toda la navegación con el Provider.
+
+---
+
+## 7. Proyecto Práctico: App Multi-Tema {#proyecto-práctico-aplicar-theming-a-la-app-de-usuarios}
+
+Tomaremos la app de la clase anterior y:
+1. Crearemos el sistema de temas.
+2. Agregaremos un botón de 🌙/☀️ en el encabezado.
+3. Configuraremos el **StatusBar** para que cambie de color automáticamente.
+
+---
+
+## ✅ Buenas Prácticas
+
+- ✅ **No hardcodees colores**: Si usas `#000` directamente, el modo oscuro no funcionará.
+- ✅ **Nombres Claros**: Usa `textSecondary` para grises que deben verse en ambos temas.
+- ✅ **StatusBar**: Recuerda que si el fondo es oscuro, los iconos de batería/hora deben ser blancos (`light`).
+
+---
+
+**Última actualización:** Marzo 2026 - Guía de aprendizaje unificada.
