@@ -3,24 +3,43 @@
 ## 📚 Índice
 
 1. [La importancia de Documentar (README.md)](#readme-intro)
-2. [Estructura del Proyecto: El DNI de tu App](#dni-app)
-3. [¿Qué es un Pitch? (Vende tu idea)](#que-es-pitch)
-4. [Estructura de la Presentación Final](#presentacion)
+2. [Teoría: El Pitch (Convencer en 3 minutos)](#pitch-teoria)
+3. [Documentación: Tu carta de presentación (README)](#readme)
+4. [¿Cómo presentar tu proyecto final?](#presentacion)
 5. [Demo Day: ¡Es hoy!](#demo-day)
 6. [Checklist Final: Entrega del Proyecto](#checklist-final)
 7. [¡Felicidades Graduado!](#resumen)
 
 ---
 
+## 1. Teoría: El Pitch (Storytelling) {#pitch-teoria}
+
+#### ¿Qué es un Pitch?
+Es una presentación muy breve (generalmente de 1 a 3 minutos) diseñada para convencer a alguien (un cliente, un jefe o un inversor) de que tu idea o tu aplicación valen la pena.
+
+#### ¿Qué es el Storytelling?
+Es el arte de contar una historia para conectar emocionalmente con quien te escucha. En vez de decir "mi app tiene botones", cuentas cómo tu app le salva el día a alguien.
+
+No importa qué tan buena sea tu app si no sabes **contarla**.
+- **Storytelling**: No empieces diciendo "Uso React Native". Empieza diciendo: "Imagina que llegas tarde al médico y no encuentras estacionamiento...". Crea una historia donde tu app sea el héroe.
+- **El por qué (Why)**: La gente no compra lo que haces, compra **por qué** lo haces. Primero vende el problema, luego la solución.
+
+---
+
 ## 1. El README Profesional {#readme-intro}
 
-Un buen código sin documentación es un código que nadie usará (o querrá pagar por él).
-- **README.md**: La puerta de entrada a tu proyecto en GitHub. Debe explicar qué hace, cómo se instala y qué usaste.
-- **Screenshots**: Incluye 2 o 3 imágenes de las mejores pantallas de tu app para venderla en segundos.
+#### ¿Qué es un README.md?
+Es el archivo de texto principal de tu proyecto en GitHub. Es la "carta de presentación" que explica de qué trata la app, cómo se instala y qué tecnologías usaste. Un proyecto sin README es como un libro sin portada.
+
+#### ¿Qué es un Repositorio (Repo)?
+Es el lugar (la "carpeta en la nube") donde guardas todo el código de tu aplicación y su historial de cambios usando herramientas como Git y GitHub.
 
 ---
 
 ## 2. El Pitch: ¿Cómo presentar tu idea? {#que-es-pitch}
+
+#### ¿Qué es una Demo?
+Es una demostración en vivo de tu aplicación funcionando. Es el momento de la verdad donde muestras que tu código realmente hace lo que prometiste.
 
 Tienes **3 minutos** para impresionar a un cliente o un reclutador.
 1. **El Problema**: ¿Qué dolor o necesidad resuelve tu app?
@@ -50,6 +69,9 @@ Para dar por finalizado el curso, asegúrate de cumplir con:
 ---
 
 ## 5. ¡Demo Day! {#demo-day}
+
+#### ¿Qué es el Demo Day?
+Es el día especial de graduación donde todos los alumnos presentan sus proyectos finales. Es la oportunidad de lucir todo lo aprendido y recibir feedback de tus compañeros y profesores.
 
 Presentarás tu proyecto final frente a tus compañeros:
 1. Conecta tu celular o emulador a la pantalla compartida.

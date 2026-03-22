@@ -1,6 +1,13 @@
 # Guía: Cómo limpiar un proyecto nuevo de Expo
 
 ## 🎯 Objetivo
+
+#### ¿Qué es Limpiar un Proyecto (Cleanup)?
+Es el proceso de borrar los archivos y el código de ejemplo que vienen por defecto al crear una app nueva. Sirve para que tu proyecto esté ordenado y solo tenga el código que tú escribiste.
+
+#### ¿Qué es el Código de Ejemplo (Boilerplate)?
+Es código listo para usar que te regalan las herramientas (como Expo) para que veas qué se puede hacer. Es muy útil al principio, pero molesta cuando quieres empezar tu propia idea desde cero.
+
 Cuando creas un proyecto de Expo con `npx create-expo-app`, este viene con mucho código de ejemplo que puede marearte. En esta guía aprenderás a borrar lo que sobra para empezar tu propia app desde cero y con orden.
 
 ## 📚 Índice
@@ -32,6 +39,9 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
+
+#### ¿Qué es el StyleSheet?
+Es una herramienta de React Native que nos permite escribir reglas de estilo (colores, tamaños, márgenes) de forma organizada y eficiente, muy parecido a como se usa el CSS en las páginas web.
   container: {
     flex: 1,
     backgroundColor: '#fff',
@@ -80,6 +90,9 @@ Después de limpiar, corre estos comandos en tu terminal:
 
 1. `npm install` (Para asegurarte de tener todo lo necesario).
 2. `npx expo start` (Para arrancar el servidor).
+
+#### ¿Qué es un Servidor de Desarrollo?
+Es un programa que corre en tu computadora y "emite" tu código hacia tu celular. Permite que cada vez que guardas un cambio en el código, lo veas al instante en tu equipo sin tener que esperar.
 
 **Si ves tu texto "Mi Nueva App" en el celular, ¡felicitaciones! Has limpiado tu proyecto con éxito.**
 

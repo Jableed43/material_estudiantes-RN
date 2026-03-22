@@ -2,8 +2,8 @@
 
 ## 📚 Índice
 
-1. [Introducción a la Optimización](#introducción)
-2. [Repaso Profundo: useEffect](#repaso-useeffect)
+1. [Teoría: ¿Por qué React re-renderiza tanto?](#teoria-render)
+2. [Repaso de useEffect (Ciclo de Vida)](#repaso-useeffect)
 3. [useMemo: Memorizar Valores](#usememo-memorizacion-valores)
 4. [useCallback: Memorizar Funciones](#usecallback-memorizacion-funciones)
 5. [useRef: Referencias Mutables](#useref-referencias-mutables)
@@ -13,17 +13,33 @@
 
 ---
 
+## 1. Teoría: La "Igualdad Referencial" e hilos {#teoria-render}
+
+#### ¿Qué es un Re-renderizado?
+Es cuando React vuelve a dibujar tu componente para mostrar cambios en la pantalla. Si no tenemos cuidado, esto puede pasar cientos de veces por segundo sin necesidad.
+
+#### ¿Qué es la "Igualdad Referencial"?
+Es la forma en que el celular compara si dos cosas son iguales.
+- React **no mira** lo que hay dentro de una función cada vez que se redibuja. Solo mira si es la **misma dirección de memoria**.
+- En JavaScript, si creas una función dos veces idénticamente, ¡son distintas para React! `(()=>5) === (()=>5)` es `FALSE`.
+
+**Conclusión**: Si pasas una función "nueva" a un componente hijo, el hijo pensará que algo cambió y se volverá a dibujar, aunque el código sea el mismo. Por eso usamos estos hooks avanzados: para **congelar** las funciones y que React vea que son iguales.
+
+---
+
 ## 1. Introducción a la Optimización {#introducción}
 
-A medida que nuestras apps crecen, React Native tiene que hacer más trabajo para mantener la pantalla actualizada. Si no tenemos cuidado, la app puede empezar a ir lenta o "trabarse". Los **Hooks Intermedios** nos ayudan a evitar que React haga trabajo innecesario.
+#### ¿Qué es la Optimización?
+Es el proceso de hacer que nuestra aplicación use menos recursos (batería, procesador) para que se sienta más rápida y fluida al tacto del usuario.
+
+A medida que nuestras apps creen, React Native tiene que hacer más trabajo para mantener la pantalla actualizada. Si no tenemos cuidado, la app puede empezar a ir lenta o "trabarse". Los **Hooks Intermedios** nos ayudan a evitar que React haga trabajo innecesario.
 
 ---
 
 ## 2. useMemo: Memorizar Valores {#usememo-memorizacion-valores}
 
-Imagina que tienes una lista de 1000 productos y quieres filtrarlos. Si filtras la lista en cada renderizado, el celular trabajará de más.
-
-**`useMemo`** guarda el resultado de un cálculo para no repetirlo salvo que algo cambie.
+#### ¿Qué es useMemo?
+Es un hook que sirve para "recordar" el resultado de un cálculo difícil (como filtrar una lista gigante). Evita que el celular tenga que hacer la misma cuenta cada vez que la pantalla se actualiza por otra razón.
 
 ```tsx
 const productosFiltrados = useMemo(() => {
@@ -36,9 +52,8 @@ const productosFiltrados = useMemo(() => {
 
 ## 3. useCallback: Memorizar Funciones {#usecallback-memorizacion-funciones}
 
-En JavaScript, cada vez que un componente se renderiza, las funciones de adentro se "crean de nuevo". Esto puede causar que componentes hijos se vuelvan a dibujar sin necesidad.
-
-**`useCallback`** mantiene la misma función en memoria. Es vital cuando pasas funciones a componentes pesados o listas.
+#### ¿Qué es useCallback?
+Es un hook que sirve para "congelar" una función en la memoria de la app. Evita que la función se cree de nuevo en cada renderizado, lo que previene que los componentes hijos se vuelvan a dibujar innecesariamente.
 
 ```tsx
 const manejarPresion = useCallback((id) => {
@@ -49,6 +64,9 @@ const manejarPresion = useCallback((id) => {
 ---
 
 ## 4. useRef: Referencias Mutables {#useref-referencias-mutables}
+
+#### ¿Qué es useRef?
+Es como una "caja negra" o una "notita" pegada al componente. Nos permite guardar un valor que no queremos mostrar en pantalla, pero que necesitamos recordar (como el foco de un input o un temporizador).
 
 `useRef` es como una "caja" donde puedes guardar algo sin que React se entere (sin provocar re-render).
 
@@ -92,6 +110,9 @@ Crearemos una app de "Buscador de Personajes":
 
 - ✅ **No optimices por optimizar**: Si tu cálculo es sumar `1 + 1`, no uses `useMemo`. Úsalo para listas largas u objetos complejos.
 - ✅ **Dependencias Correctas**: Asegúrate de poner todas las variables que usas dentro del array `[]` del hook.
+
+#### ¿Qué son las Dependencias?
+Son las variables que el hook vigila. Si alguna de ellas cambia, el hook se "descongela" y vuelve a ejecutarse para actualizarse.
 - ✅ **React.memo**: Usa este componente para envolver hijos que no necesitan re-renderizarse si sus props no cambiaron.
 
 ---

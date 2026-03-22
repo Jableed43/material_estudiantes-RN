@@ -2,18 +2,34 @@
 
 ## 📚 Índice
 
-1. [¿Qué es la persistencia de datos?](#persistencia-datos)
-2. [Almacenamiento Local (AsyncStorage)](#asyncstorage)
-3. [Almacenamiento en la Nube (Firebase)](#firebase)
-4. [Configuración de Firebase Paso a Paso](#firebase-configuracion)
-5. [Firestore: Base de datos en tiempo real](#firestore)
-6. [Operaciones CRUD (Crear, Leer, Actualizar, Borrar)](#firestore-escritura)
-7. [Proyecto Práctico: App de Notas en la Nube](#proyecto-practico)
-8. [Buenas Prácticas de Almacenamiento](#resumen)
+1. [Teoría: ¿Por qué los estados son volátiles?](#teoria-persistencia)
+2. [¿Qué es la Persistencia de Datos?](#persistencia)
+3. [Almacenamiento Local (AsyncStorage)](#asyncstorage)
+4. [Almacenamiento en la Nube (Firebase)](#firebase)
+5. [Configuración de Firebase Paso a Paso](#firebase-configuracion)
+6. [Firestore: Base de datos en tiempo real](#firestore)
+7. [Operaciones CRUD (Crear, Leer, Actualizar, Borrar)](#firestore-escritura)
+8. [Proyecto Práctico: App de Notas en la Nube](#proyecto-practico)
+9. [Buenas Prácticas de Almacenamiento](#resumen)
+
+---
+
+## 1. Teoría: La Memoria Volátil {#teoria-persistencia}
+
+#### ¿Qué es la Memoria RAM?
+Es la memoria de corto plazo de tu celular. Es súper rápida, pero "volátil": en cuanto cierras la app o apagas el equipo, todo lo que estaba ahí (como los `useState`) se borra para siempre.
+
+#### ¿Qué es el Almacenamiento Persistente?
+Es como el disco rígido o la memoria SD. Es más lenta que la RAM, pero los datos quedan guardados "para siempre" (hasta que tú decidas borrarlos), incluso si el celular se queda sin batería.
+
+**Regla**: Si quieres que tu usuario siga con su sesión abierta mañana, el dato debe ir a la memoria de almacenamiento.
 
 ---
 
 ## 1. ¿Qué es la persistencia de datos? {#persistencia-datos}
+
+#### ¿Qué es la Persistencia?
+Es la capacidad de una aplicación para "recordar" información a largo plazo, haciendo que los datos sobrevivan a los cierres de la app o reinicios del sistema.
 
 La **persistencia** permite que los datos de tu app sigan ahí aunque cierres la app o apagues el celular.
 - **Local**: Se guarda en el teléfono (ej: configuración de tema oscuro, token de sesión).
@@ -23,7 +39,8 @@ La **persistencia** permite que los datos de tu app sigan ahí aunque cierres la
 
 ## 2. AsyncStorage (Persistencia Local) {#asyncstorage}
 
-Es como el `localStorage` de la web pero para React Native. Sirve para guardar cosas pequeñas.
+#### ¿Qué es AsyncStorage?
+Es un sistema de almacenamiento "clave-valor" (como un diccionario) que vive dentro del celular. Sirve para guardar configuraciones simples, como el nombre del usuario o si prefiere el modo oscuro.
 
 ```tsx
 // Guardar:
@@ -37,8 +54,11 @@ const nombre = await AsyncStorage.getItem('@mi_app:usuario');
 
 ## 3. Firebase (Persistencia en la Nube) {#firebase}
 
-**Firebase** es una plataforma de Google que nos da un "Backend" completo sin tener que programar un servidor.
-- **Ventaja**: ¡Es en tiempo real! Si cambias algo en la base de datos, el celular se actualiza solo sin que el usuario tenga que refrescar.
+#### ¿Qué es Firebase?
+Es una plataforma de Google que nos ofrece bases de datos, autenticación y almacenamiento en la nube sin que tengamos que programar nuestro propio servidor.
+
+#### ¿Qué es el Tiempo Real (Realtime)?
+Significa que los cambios se ven al instante en todos los dispositivos conectados, sin necesidad de que el usuario "refresque" la pantalla.
 
 ---
 
@@ -52,9 +72,12 @@ const nombre = await AsyncStorage.getItem('@mi_app:usuario');
 
 ## 5. Firestore: Base de datos NoSQL {#firestore}
 
-Firestore organiza los datos en **Colecciones** y **Documentos**.
-- **Colección**: "usuarios"
-- **Documento**: Cada usuario individual con su nombre, mail, etc.
+#### ¿Qué es una Base de Datos NoSQL?
+A diferencia de las bases de datos de tablas (como Excel), NoSQL guarda los datos en trozos flexibles llamados "Documentos" que se parecen a los objetos JSON de JavaScript.
+
+#### ¿Qué es una Colección / Documento?
+- **Colección**: Es una "carpeta" que agrupa cosas del mismo tipo (ej: "usuarios").
+- **Documento**: Es la "ficha" individual de cada cosa (ej: los datos de Juan).
 
 ### Leer en tiempo real con `onSnapshot`
 Esta función es mágica: se queda escuchando a Firebase y cada vez que alguien agrega una nota, tu app la muestra al instante.
@@ -63,10 +86,12 @@ Esta función es mágica: se queda escuchando a Firebase y cada vez que alguien 
 
 ## 6. Operaciones CRUD {#firestore-escritura}
 
-- **Create**: `addDoc` (Agregar documento).
-- **Read**: `getDocs` o `onSnapshot`.
-- **Update**: `updateDoc` (Modificar un campo).
-- **Delete**: `deleteDoc` (Quitar un documento).
+#### ¿Qué es el CRUD?
+Son las 4 operaciones básicas de cualquier aplicación del mundo:
+- **C**reate (Crear): Agregar un dato nuevo (`addDoc`).
+- **R**ead (Leer): Consultar la información (`getDocs`).
+- **U**pdate (Actualizar): Editar un dato existente (`updateDoc`).
+- **D**elete (Borrar): Quitar un dato (`deleteDoc`).
 
 ---
 

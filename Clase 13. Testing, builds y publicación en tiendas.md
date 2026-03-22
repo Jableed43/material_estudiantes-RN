@@ -13,6 +13,25 @@
 
 ---
 
+## 1. Teoría: Testing y Builds {#teoria-testing}
+
+#### ¿Qué es el Testing?
+Es el proceso de escribir código que verifica automáticamente que tu aplicación funcione bien. Sirve para detectar errores antes de que lleguen al usuario final.
+
+#### ¿Qué es un Unit Testing (Pruebas Unitarias)?
+Prueba una sola "pieza" o función pequeña de tu código (ej: una suma). Es la prueba más rápida y barata de hacer.
+
+#### ¿Qué es un Integration Testing (Pruebas de Integración)?
+Prueba cómo interactúan dos o más piezas de tu app (ej: si al tocar el botón de "Login" realmente se llama a la API).
+
+#### ¿Qué es un E2E Testing (Pruebas de Extremo a Extremo)?
+Es una prueba que simula a un usuario real usando la app de principio a fin (ej: entra, busca un producto, lo compra y sale).
+
+#### ¿Qué es un Build?
+Es el proceso final de "cocción" de tu app. Transforma todo tu código de programación en un único archivo comprimido (APK, AAB o IPA) que el celular puede entender e instalar.
+
+---
+
 ## 1. Testing Automatizado (`Jest`) {#testing-intro}
 
 Hacer **Testing** es escribir código que prueba tu código. Es la única forma de no romper lo anterior al cambiar algo nuevo.
@@ -30,22 +49,28 @@ it('el botón debe decir "Enviar"', () => {
 
 ## 2. Builds de Producción: Generando el instalador {#tipos-builds}
 
-Para que alguien pueda instalar tu app, necesitas un archivo instalador:
-- **Android**: Un `.apk` (instalación manual) o `.aab` (formato para subir a la tienda).
-- **iOS**: Un archivo `.ipa` (solo se sube a App Store Connect).
+#### ¿Qué es un APK?
+Es el archivo instalador para celulares Android. Puedes enviárselo a alguien por WhatsApp e instalarlo manualmente.
+
+#### ¿Qué es un AAB (Android App Bundle)?
+Es el formato moderno que Google Play exige para subir apps a su tienda. Es más eficiente y liviano que el APK.
+
+#### ¿Qué es un IPA?
+Es el archivo instalador exclusivo para iPhones (iOS). Solo se puede instalar a través de la App Store o herramientas oficiales de Apple.
 
 ---
 
-## 3. Expo Application Services (EAS Build) {#eas-build}
+## 5. Expo Application Services (EAS Build) {#eas-build}
 
-Antes necesitabas computadoras de 3000 dólares para construir apps. Hoy, **Expo lo hace por ti** en sus servidores.
+#### ¿Qué es EAS?
+Es un servicio en la nube de Expo que pone a nuestra disposición computadoras potentes para que construyan nuestra app por nosotros. Esto nos ahorra tener que configurar servidores complejos en nuestra propia PC.
 1. Comando moderno: `eas build`.
 2. Expo construye la app y te da un link de descarga.
 3. Puedes ver el proceso desde el dashboard de Expo.
 
 ---
 
-## 4. Publicación en las Tiendas {#publicacion}
+## 6. Publicación en las Tiendas {#publicacion}
 
 | Tienda | Requisito Principal | Costo |
 |--------|----------------------|-------|

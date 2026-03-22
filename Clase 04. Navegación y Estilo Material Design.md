@@ -4,8 +4,9 @@
 
 1. [Introducción](#introducción)
 2. [React Navigation: El Estándar](#react-navigation)
-   - [¿Qué es React Navigation?](#qué-es-react-navigation)
-   - [Tipos de Navegadores y Cuándo Usarlos](#tipos-de-navegadores)
+   - [Teoría: La Pila (Stack) de Pantallas](#teoria-stack)
+   - [Introducción a la Navegación (React Navigation)](#react-navigation)
+   - [Tipos de Navegadores (Stack, Tabs, Drawer)](#tipos-navegadores)
 3. [Instalación de Dependencias](#instalación-de-dependencias)
 4. [Configuración con Expo Router](#configuración-expo-router)
 5. [Material Design 3](#material-design)
@@ -19,6 +20,20 @@
 
 ---
 
+## 1. Teoría: La Navegación y la Pila (Stack) {#teoria-stack}
+
+#### ¿Qué es la Navegación?
+Es el sistema que permite al usuario moverse entre diferentes pantallas de la aplicación de forma fluida y organizada.
+
+#### ¿Qué es la Pila (Stack) de Pantallas?
+A diferencia de las pestañas de un navegador web, las apps funcionan como una **Pila de platos**.
+- `Push` (Empujar): Cuando presionas un botón para ir a "Detalle", pones un plato nuevo encima del anterior.
+- `Pop` (Sacar): Cuando presionas "Volver", quitas el plato de arriba y el anterior vuelve a ser visible.
+
+**Concepto Clave**: Si pusheas 5 veces la misma pantalla, tendrás 5 copias en memoria. ¡Cuidado con no llenar la pila innecesariamente!
+
+---
+
 ## 1. Introducción {#introducción}
 
 En esta clase aprenderemos a implementar navegación profesional y a aplicar los principios de **Material Design 3** para que nuestras apps se vean modernas y coherentes.
@@ -27,21 +42,26 @@ En esta clase aprenderemos a implementar navegación profesional y a aplicar los
 
 ## 2. React Navigation: El Estándar {#react-navigation}
 
-**React Navigation** es la biblioteca oficial/estándar para movernos entre pantallas en React Native.
+#### ¿Qué es React Navigation?
+Es la biblioteca oficial y más usada para manejar la navegación en React Native. Nos permite crear flujos de pantallas, menús y pestañas de forma sencilla.
 
-### Tipos de Navegadores {#tipos-de-navegadores}
+### Tipos de Navegadores
 
-| Navegador | Uso | Ejemplo |
-|-----------|-----|---------|
-| **Stack** | Pila de pantallas (LIFO) | Lista → Detalle |
-| **Tabs** | Barra inferior/superior | Inicio, Perfil, Ajustes |
-| **Drawer** | Menú lateral deslizable | Configuraciones avanzadas |
+#### ¿Qué es un Stack Navigator? (Pila)
+Es el que usamos para ir "hacia adelante" y "hacia atrás". Ejemplo: De una lista de productos al detalle de uno.
+
+#### ¿Qué es un Tab Navigator? (Pestañas)
+Es la barra (usualmente abajo) que tiene varios botones para saltar entre las secciones principales de la app (Inicio, Buscar, Perfil).
+
+#### ¿Qué es un Drawer Navigator? (Lateral)
+Es el menú que sale del costado cuando deslizas el dedo o tocas un ícono de "hamburguesa".
 
 ---
 
 ## 3. Instalación de Dependencias {#instalación-de-dependencias}
 
-Para que todo funcione (gestos, animaciones, áreas seguras), necesitamos varios paquetes:
+#### ¿Qué es una Dependencia?
+Es un paquete de código escrito por otros desarrolladores que añadimos a nuestro proyecto para no tener que programar todo desde cero (ejemplo: el sistema de navegación).
 
 ```bash
 npx expo install @react-navigation/native @react-navigation/native-stack @react-navigation/bottom-tabs react-native-screens react-native-gesture-handler react-native-safe-area-context react-native-reanimated react-native-paper @expo/vector-icons expo-status-bar
@@ -57,13 +77,11 @@ npx expo install @react-navigation/native @react-navigation/native-stack @react-
 
 ## 5. Material Design 3 {#material-design}
 
-Es el sistema de diseño de Google. Buscamos:
-- **Jerarquía**: Que lo importante resalte.
-- **Elevación**: Sombras para separar elementos.
-- **Feedback**: Que el botón reaccione al tocarlo.
+#### ¿Qué es Material Design?
+Es un sistema de diseño creado por Google que propone reglas visuales (colores, sombras, animaciones) para que las apps sean intuitivas y estéticamente agradables en cualquier dispositivo.
 
-### React Native Paper
-Es la librería que ya trae los botones, cards y menús de Material Design listos para usar:
+#### ¿Qué es React Native Paper?
+Es una librería de componentes que ya vienen diseñados siguiendo las reglas de Material Design. Nos permite usar botones, tarjetas y diálogos "lindos" con una sola línea de código.
 ```tsx
 import { Button, Card, Text } from 'react-native-paper';
 
@@ -93,7 +111,8 @@ app/
 
 ## 7. Manejo de Temas (Context API) {#context-api-para-tema}
 
-Usamos **Context API** para que toda la app sepa si estamos en modo oscuro o claro sin tener que pasar "props" de pantalla en pantalla.
+#### ¿Qué es Context API?
+Es una herramienta de React que permite compartir información (como si la app está en modo oscuro o claro) entre todos los componentes, sin tener que pasarla "mano a mano" de padre a hijo.
 
 ---
 

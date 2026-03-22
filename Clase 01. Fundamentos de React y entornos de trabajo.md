@@ -9,6 +9,7 @@
    - [Manejo de Promesas (Async/Await)](#async-await)
 2. [Introducción a la Arquitectura de React](#react-arquitectura)
    - [Componentes y Props](#componentes)
+   - [¿Cómo funciona React Native por dentro?](#arquitectura-teorica)
    - [Sintaxis JSX](#jsx)
    - [Virtual DOM en Mobile](#virtual-dom)
 3. [Entornos de Trabajo: React Native vs Expo](#entornos-trabajo)
@@ -22,8 +23,15 @@
 
 React Native se basa 100% en JavaScript moderno. No podemos avanzar sin dominar estas herramientas:
 
-### Variables y Scope
-Olvidamos el `var`. El scope (alcance) de bloque es nuestro mejor amigo:
+### Variables y Scope (Alcance)
+
+#### ¿Qué es una Variable?
+Es un contenedor donde guardamos información que nuestra aplicación necesita usar más tarde (como un nombre, un número o un color).
+
+#### ¿Qué es el Scope (Alcance)?
+Es el "territorio" donde una variable vive y puede ser usada. Si una variable está dentro de una función, afuera no se conoce.
+
+Olvidamos el `var`. El scope de bloque (`let` y `const`) es nuestro mejor amigo:
 
 ```javascript
 // ✅ Usar const para valores que no cambian (referencia)
@@ -34,8 +42,13 @@ let contador = 0;
 contador = 1;
 ```
 
-### Arrow Functions
-Son vitales para pasar funciones como props:
+### Arrow Functions (Funciones de Flecha)
+
+#### ¿Qué es una Función?
+Es un bloque de código diseñado para realizar una tarea específica. Imaginala como una "máquina" a la que le das algo (entrada), hace un proceso y te devuelve un resultado (salida).
+
+#### ¿Qué es una Arrow Function?
+Es una forma moderna y corta de escribir funciones en JavaScript. Es vital para pasar acciones entre componentes.
 
 ```javascript
 // ✅ Sintaxis moderna
@@ -48,7 +61,12 @@ const suma = (a, b) => a + b;
 ```
 
 ### Desestructuración
-Manejaremos muchos objetos de configuración y estilos. Esta sintaxis es clave:
+
+#### ¿Qué es un Objeto?
+Es una colección de datos relacionados (propiedades) que describen a algo (ej: un usuario con nombre, edad y ciudad).
+
+#### ¿Qué es la Desestructuración?
+Es un "atajo" para sacar datos de un objeto o una lista y guardarlos en variables individuales rápidamente.
 
 ```javascript
 const usuario = { nombre: "Juan", edad: 25, ciudad: "Salta" };
@@ -58,8 +76,13 @@ const { nombre, ciudad } = usuario;
 console.log(nombre); // "Juan"
 ```
 
-### Async / Await
-Para conectarnos a APIs (Clase 05 en adelante), entenderemos cómo esperar datos sin "congelar" la pantalla:
+### Async / Await (Asincronismo)
+
+#### ¿Qué es la Asincronía?
+Es cuando una tarea tarda tiempo en completarse (como pedir datos a internet). La app no se detiene; espera el resultado mientras sigue funcionando.
+
+#### ¿Qué es Async / Await?
+Son palabras clave que le dicen a JavaScript: "espera a que esta tarea termine antes de seguir con la siguiente línea", evitando que la pantalla se "congele".
 
 ```javascript
 const obtenerDatos = async () => {
@@ -75,17 +98,27 @@ const obtenerDatos = async () => {
 
 ---
 
-## 2. Arquitectura de React {#react-arquitectura}
-
 React Native no es una "página web que corre en un celu". Es código real de Android e iOS manipulado por React.
 
-- **JSX**: Escribimos algo que parece HTML pero se convierte en botones reales de Android/iOS.
-- **Props**: Son los atributos que enviamos. Ej: `<Usuario nombre="Cacho" />`.
-- **Componentes**: Son las piezas de Lego de tu app.
+#### ¿Qué es un Componente?
+Son las "piezas de Lego" de tu aplicación. Cada parte de la pantalla (un botón, una imagen, una lista) es un componente que puedes reutilizar.
+
+#### ¿Qué es JSX?
+Es una sintaxis que parece HTML pero corre dentro de JavaScript. Nos permite escribir cómo queremos que se vea la app de forma visual y sencilla.
+
+#### ¿Qué son las Props (Propiedades)?
+Son los "argumentos" o datos que le pasamos a un componente para que sepa qué mostrar. 
+Ejemplo: `<Usuario nombre="Cacho" />` (la prop es `nombre`).
 
 ---
 
 ## 3. Entornos de Trabajo {#entornos-trabajo}
+
+#### ¿Qué es Expo?
+Es un conjunto de herramientas y servicios construidos sobre React Native que hace que el desarrollo sea mucho más fácil y rápido. ¡Es el estándar para aprender y crear MVPs!
+
+#### ¿Qué es React Native CLI?
+Es la forma "manual" de trabajar con React Native. Requiere instalar herramientas pesadas como Android Studio y Xcode.
 
 | Característica | **Expo** (Recomendado) | **React Native CLI** |
 |----------------|-----------------------|---------------------|
@@ -97,6 +130,9 @@ React Native no es una "página web que corre en un celu". Es código real de An
 ---
 
 ## 4. Instalación del Entorno {#instalacion}
+
+#### ¿Qué es Node.js?
+Es el "motor" que permite ejecutar JavaScript en tu computadora (fuera del navegador). Es necesario para que todas nuestras herramientas de desarrollo funcionen.
 
 Para trabajar hoy necesitamos:
 1. **Node.js** (v18 o +).

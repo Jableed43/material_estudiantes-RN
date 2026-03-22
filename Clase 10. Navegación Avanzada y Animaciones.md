@@ -2,14 +2,34 @@
 
 ## 📚 Índice
 
-1. [Navegación con Pestañas (Tabs)](#navegacion-tabs)
-2. [Menú Lateral (Drawer)](#navegacion-drawers)
-3. [Navegación Anidada: Mezclando todo](#drawers-anidacion)
-4. [Introducción a las Animaciones](#framer-motion)
-5. [Framer Motion en React Native (@legendapp/motion)](#framer-instalacion)
-6. [Microinteracciones: Feedback al usuario](#microinteracciones)
-7. [Proyecto Práctico: App con Flujo Completo](#proyecto-practico)
-8. [Resumen y Buenas Prácticas](#resumen)
+1. [Teoría: ¿Por qué mi app se traba cuando animo? (Hilos)](#teoria-hilos)
+2. [Navegación con Pestañas (Bottom Tabs)](#tabs)
+3. [Navegación Lateral (Drawer)](#drawer)
+4. [Navegación Anidada: Mezclando todo](#drawers-anidacion)
+5. [Introducción a las Animaciones](#framer-motion)
+6. [Framer Motion en React Native (@legendapp/motion)](#framer-instalacion)
+7. [Microinteracciones: Feedback al usuario](#microinteracciones)
+8. [Proyecto Práctico: App con Flujo Completo](#proyecto-practico)
+9. [Resumen y Buenas Prácticas](#resumen)
+
+---
+
+## 1. Teoría: Hilo de UI vs Hilo de JS {#teoria-hilos}
+
+#### ¿Qué es un Hilo (Thread)?
+Es un "trabajador" o un camino de ejecución dentro del procesador de tu celular. Tu app no hace todo en un solo lugar; reparte las tareas entre distintos hilos.
+
+#### ¿Qué es el Hilo de JS?
+Es donde corre todo tu código lógico: los `if`, los bucles, las llamadas a APIs y el estado de tu app.
+
+#### ¿Qué es el Hilo de UI (Interfaz)?
+Es el encargado exclusivo de dibujar los píxeles en la pantalla. Es el que sabe mover un botón o pintar una imagen.
+
+#### ¿Qué es el Renderizado a 60 FPS?
+FPS significa "Cuadros por Segundo" (Frames Per Second). Para que una animación se vea fluida como el agua, el celular debe dibujar 60 imágenes distintas cada segundo.
+
+**El problema**: Si el hilo de JS está muy ocupado, la animación se verá entrecortada. 
+**La solución**: Usamos herramientas que mandan la animación al **Hilo de UI**, para que sea fluida (60 FPS) aunque tu código esté ocupado procesando datos pesados en el fondo.
 
 ---
 
@@ -38,20 +58,18 @@ En una app real, sueles tener un **Drawer** para el menú general, y adentro de 
 
 ## 4. Animaciones con Framer Motion {#framer-instalacion}
 
-¿Por qué usar animaciones?
-- Hacen que la app no se sienta "dura".
-- Ayudan al usuario a entender qué pasó (ej: si algo desaparece, que se desvanezca suavemente).
+#### ¿Qué es una Animación?
+Es el cambio gradual de una propiedad visual (como la opacidad, la posición o el tamaño) a lo largo del tiempo. Sirve para que el usuario entienda qué ocurre en la pantalla.
 
-Usaremos **`@legendapp/motion`**, que es la versión de Framer Motion optimizada para celulares.
+#### ¿Qué es @legendapp/motion?
+Es una versión ultraligera de la famosa librería **Framer Motion**, adaptada para que funcione rápido en celulares sin gastar mucha batería.
 
 ---
 
 ## 5. Microinteracciones {#microinteracciones}
 
-Son las animaciones "chiquitas":
-- Un botón que se achica un poquito cuando lo tocas.
-- Una tarjeta que rebota al entrar a la pantalla.
-- Un check que se anima cuando marcas una tarea como lista.
+#### ¿Qué es una Microinteracción?
+Es una animación pequeña y sutil que sucede en respuesta a una acción directa del usuario (como tocar un botón o marcar un check). Su fin es dar "feedback" (confirmación) de que la acción fue registrada.
 
 ```tsx
 <Motion.Pressable 

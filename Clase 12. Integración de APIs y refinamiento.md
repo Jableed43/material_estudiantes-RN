@@ -2,25 +2,48 @@
 
 ## 📚 Índice
 
-1. [Consumo Profesional de APIs (Axios vs Fetch)](#apis-pro)
-2. [¿Qué es un Endpoint? (URLs con propósito)](#endpoints)
-3. [El Ciclo de Iteración (Mejorar sin cesar)](#iteracion)
-4. [QA básico: Mi primera auditoría de calidad](#qa)
-5. [Checklist antes de lanzar el MVP](#checklist)
-6. [Variables de Entorno (.env)](#dotenv)
-7. [Proyecto Práctico: Perfeccionando mi App](#proyecto-practico)
-8. [Resumen y Consejos Finales](#resumen)
+1. [Teoría: Deuda Técnica (El costo de los atajos)](#teoria-deuda)
+2. [Teoría: Red-Green-Refactor](#refactor-teoria)
+3. [Estrategias de QA: ¡Probá tu app!](#estrategias-qa)
+4. [Consumo Profesional de APIs (Axios vs Fetch)](#apis-pro)
+5. [¿Qué es un Endpoint? (URLs con propósito)](#endpoints)
+6. [El Ciclo de Iteración (Mejorar sin cesar)](#iteracion)
+7. [Checklist antes de lanzar el MVP](#checklist)
+8. [Variables de Entorno (.env)](#dotenv)
+9. [Proyecto Práctico: Perfeccionando mi App](#proyecto-practico)
+10. [Resumen y Consejos Finales](#resumen)
+
+---
+
+## 1. Teoría: Deuda Técnica (El costo de los atajos) {#teoria-deuda}
+
+#### ¿Qué es la Deuda Técnica?
+Es el "costo" de tomar atajos al programar para terminar rápido. Si haces código desordenado hoy, mañana tendrás que "pagar los intereses" perdiendo mucho tiempo arreglando fallos que no deberían estar ahí.
+
+#### ¿Qué es Refactorizar (Refactor)?
+Es el proceso de limpiar y mejorar la estructura de tu código **sin cambiar su funcionamiento**. Es como ordenar tu habitación para encontrar las cosas más rápido la próxima vez.
+
+Hacer código "rápido y sucio" es como pedir un préstamo al banco:
+- Si no ordenas tu código hoy, mañana será el doble de difícil agregar algo nuevo.
+- **Calidad**: Un buen programador no es el que hace que la app "ande", sino el que escribe un código que otro humano pueda entender fácilmente.
+
+## 2. Teoría: Red-Green-Refactor {#refactor-teoria}
+
+#### ¿Qué es el ciclo Red-Green-Refactor?
+Es una técnica de trabajo profesional que dice:
+1. **Red** (Rojo): Haz que falle (escríbelo aunque no ande).
+2. **Green** (Verde): Haz que funcione como sea (aunque el código sea feo).
+3. **Refactor** (Limpio): ¡Ordena y embellece el código ahora que ya funciona!
 
 ---
 
 ## 1. Consumo Profesional de APIs {#apis-pro}
 
-Para que tu app no se rompa al buscar datos, usaremos **Axios** o **Fetch** con inteligencia:
+#### ¿Qué es Axios?
+Es una librería externa de JavaScript (muy popular) que facilita enormemente el trabajo con APIs. Hace que los pedidos a internet sean más cortos de escribir y más potentes de manejar.
 
-| Herramienta | Cuándo usarla | Beneficio |
-|-------------|---------------|-----------|
-| **Fetch** | Apps simples | Nativo en JS, sin instalar nada. |
-| **Axios** | Apps reales | Maneja JSON solo, intercepta solicitudes, cancela pedidos. |
+#### ¿Qué es un Interceptor?
+Es una función de Axios que "atrapa" cada pedido que haces a internet antes de que salga de tu celular. Sirve para ponerle automáticamente tu token de seguridad a todos los pedidos sin tener que escribirlo cada vez.
 
 ### Axios Interceptors
 Podemos decirle a Axios que haga algo **siempre** antes de una llamada (ej: inyectar el token de usuario):
@@ -60,6 +83,9 @@ Programar es un proceso circular:
 
 ## 4. Control de Calidad (QA) {#qa}
 
+#### ¿Qué es el QA (Quality Assurance)?
+Es el proceso de asegurar que tu aplicación no tenga errores (bugs) importantes. El QA prueba la app en diferentes situaciones ("¿Qué pasa si apago el internet?") para evitar que el usuario final tenga una mala experiencia.
+
 El **QA** no es opcional. Debes probar tu app como si fueras un usuario que no sabe nada:
 - **Smoke test**: ¿Se abre la app o crashea?
 - **Happy Path**: ¿Funciona el flujo principal del punto A al B?
@@ -68,6 +94,9 @@ El **QA** no es opcional. Debes probar tu app como si fueras un usuario que no s
 ---
 
 ## 5. Checklist antes de lanzar {#checklist}
+
+#### ¿Qué son las Variables de Entorno (.env)?
+Son una "caja fuerte" donde guardas tus secretos (claves de API, contraseñas de bases de datos). Nunca deben subirse a GitHub, porque cualquiera podría ver tus claves privadas.
 
 Antes de mandarle el link a un cliente:
 - [ ] ¿Tiene un ícono (no el de Expo por defecto)?

@@ -13,15 +13,24 @@
 
 ---
 
-## 1. Definiendo el Alcance (#definicion-alcance)
+## 1. Definiendo el Alcance {#definicion-alcance}
+
+#### ¿Qué es el Alcance (Scope) de un proyecto?
+Es la lista de todas las cosas que tu aplicación **SÍ** va a hacer y, sobre todo, las que **NO** va a hacer. Definir el alcance evita que el proyecto crezca infinitamente y nunca se termine.
+
+#### ¿Qué es un MVP (Producto Mínimo Viable)?
+Es la versión más simple y básica de tu aplicación que ya puede ser usada por alguien. No tiene todas las funciones, pero la función principal (ej: mandar un mensaje) anda perfecto.
 
 Antes de escribir la primera línea de código, debes saber **qué va a hacer tu app**.
 - **Alcance**: Es el mapa de tu proyecto. ¿Tiene login? ¿Tiene perfil? ¿Funciona sin internet?
-- **MVP (Producto Mínimo Viable)**: No intentes hacer el próximo Facebook en un día. Haz que la función principal funcione perfecto primero.
+- **MVP**: No intentes hacer el próximo Facebook en un día. Haz que la función principal funcione perfecto primero.
 
 ---
 
-## 2. Arquitectura Modular (#separacion-modulos)
+## 2. Arquitectura Modular {#separacion-modulos}
+
+#### ¿Qué es la Arquitectura Modular?
+Es la forma de organizar tu código en piezas o "módulos" independientes. En vez de tener un archivo gigante con todo, separas el login en un lado, las tareas en otro y los estilos en otro.
 
 No pongas todos tus archivos en una sola carpeta. Organízalos por "Módulos" o "Funcionalidades":
 - `src/auth/`: Todo lo relacionado con el login.
@@ -32,7 +41,10 @@ Esto hace que tu código sea fácil de leer y que no te vuelvas loco buscando un
 
 ---
 
-## 3. Flujos de Navegación (#flujos-navegacion)
+## 3. Flujos de Navegación {#flujos-navegacion}
+
+#### ¿Qué es la Navegación Condicional?
+Es cuando la aplicación decide qué pantalla mostrar basándose en una condición (ejemplo: si el usuario ya puso su contraseña, mostramos el Home; si no, el Login).
 
 Una app profesional tiene flujos claros:
 1. **Splash Screen**: Cargando datos...
@@ -43,11 +55,13 @@ Una app profesional tiene flujos claros:
 
 ---
 
-## 4. Experiencia de Usuario (UX) (#animaciones-clave)
+## 4. Experiencia de Usuario (UX) {#animaciones-clave}
 
-La UX no es solo que la app se vea linda (eso es UI). La UX es **cómo se siente**.
-- **Regla de oro**: El usuario nunca debe preguntarse "¿Qué tengo que hacer ahora?".
-- **Feedback**: Si el usuario toca un botón, el botón debe reaccionar (microinteracción).
+#### ¿Qué es la UI (Interfaz de Usuario)?
+Es el aspecto visual de la app: los colores, los botones, las imágenes y las tipografías. Es "cómo se ve".
+
+#### ¿Qué es la UX (Experiencia de Usuario)?
+Es la sensación y facilidad con la que una persona usa tu app. No se trata solo de que sea linda, sino de que sea útil, rápida y fácil de entender. Es "cómo se siente".
 
 ---
 

@@ -2,6 +2,9 @@
 
 ## 🎯 Objetivo
 
+#### ¿Qué es una TODO List?
+Es el proyecto clásico de todo programador: una "Lista de Tareas". Sirve para practicar cómo crear, leer, editar y borrar información (CRUD) de forma interactiva.
+
 Aprenderás a construir una aplicación real de "Lista de Tareas" (TODO List) que responde a lo que el usuario hace e incluso permite cambiar entre tema claro y oscuro, aplicando los conceptos de hooks, eventos y componentes nativos.
 
 ## 📚 Índice
@@ -17,6 +20,9 @@ Aprenderás a construir una aplicación real de "Lista de Tareas" (TODO List) qu
 ---
 
 ## 🏗️ Paso 1: Estructura y Estados {#paso-1}
+
+#### ¿Qué es un Estado en un Proyecto Real?
+Es la forma en que la aplicación "siente" y "recuerda" lo que está pasando. Si no tuviéramos estados, la lista de tareas estaría siempre vacía y el input no escribiría nada.
 
 Necesitamos que nuestra app "recuerde" tres cosas: las tareas, lo que el usuario escribe, y si el modo oscuro está activo.
 
@@ -62,6 +68,12 @@ Usaremos un `Switch` (interruptor) que cambie el estado de `darkMode`.
 
 ## ✍️ Paso 3: Agregar Tareas {#paso-3}
 
+#### ¿Qué es la Inmutabilidad?
+Es una regla de React que dice: "No rompas lo que ya existe, crea una copia nueva con el cambio". En vez de agregar una tarea a la lista vieja, creamos una lista nueva que contiene las tareas viejas más la nueva.
+
+#### ¿Qué es un Identificador Único (ID)?
+Es un "documento de identidad" para cada elemento de tu lista. Sirve para que React no se confunda si dos tareas dicen exactamente lo mismo (ejemplo: dos tareas que digan "Comprar pan").
+
 Usamos una función que valida que el texto no esté vacío, crea un objeto nuevo y lo agrega al array sin modificar el original (**inmutabilidad**).
 
 ```tsx
@@ -93,6 +105,9 @@ Conecta esto a tu `TextInput`:
 ---
 
 ## 📊 Paso 4: Tareas Pendientes {#paso-4}
+
+#### ¿Qué es un Valor Derivado?
+Es un dato que calculamos "al vuelo" usando información que ya tenemos en los estados. No hace falta crear un estado para el total de tareas si ya tenemos la lista de tareas; simplemente las contamos.
 
 No hace falta un nuevo estado para contar. Podemos calcularlo en cada renderizado.
 

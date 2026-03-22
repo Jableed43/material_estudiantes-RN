@@ -7,10 +7,13 @@
 3. [Fetch API: La herramienta nativa](#fetch-api)
 4. [Métodos HTTP (GET, POST, PUT, DELETE)](#métodos-http)
 5. [Async/Await: Código Asíncrono Moderno](#uso-moderno-asyncawait)
-6. [Manejo de estados: Carga y Error](#manejo-de-errores)
-7. [MockAPI.io: Tu propio Backend gratis](#mockapio---api-rest-para-pruebas)
-8. [Proyecto Práctico: Consumiendo una API](#proyecto-práctico-consumir-api-rest)
-9. [Resumen y Buenas Prácticas](#buenas-prácticas)
+6. [Teoría: REST y Serialización de Datos](#teoria-rest)
+7. [Consumo de APIs Reales (Endpoints)](#endpoints-datos-reales)
+8. [Herramientas para Testing (Postman y Axios)](#consumir-datos-reales)
+9. [Manejo de estados: Carga y Error](#manejo-de-errores)
+10. [MockAPI.io: Tu propio Backend gratis](#mockapio---api-rest-para-pruebas)
+11. [Proyecto Práctico: Consumiendo una API](#proyecto-práctico-consumir-api-rest)
+12. [Resumen y Buenas Prácticas](#buenas-prácticas)
 
 ---
 
@@ -22,15 +25,21 @@ Hasta ahora nuestras apps han funcionado de forma aislada. Hoy aprenderemos a co
 
 ## 2. ¿Qué es una API REST? {#qué-es-una-api-rest}
 
-Una API es como un "mozo" en un restaurante: tú (el cliente) haces un pedido, el mozo lleva el pedido a la cocina (el servidor) y te trae la comida (los datos).
-- **REST** es el lenguaje estándar que usan casi todas las aplicaciones modernas.
-- Los datos viajan en formato **JSON** (objetos de JavaScript).
+#### ¿Qué es una API?
+Es un mensajero que permite que dos aplicaciones se hablen entre sí. Imaginala como un "mozo" en un restaurante: tú (el cliente) haces un pedido, el mozo lleva el pedido a la cocina (el servidor) y te trae la comida (los datos).
+
+#### ¿Qué es un Servidor?
+Es una computadora potente encargada de guardar y procesar los datos de millones de usuarios (fotos de Instagram, chats de WhatsApp, productos de Amazon).
+
+#### ¿Qué es el formato JSON?
+Es la forma en que las aplicaciones se pasan los datos. Se parece mucho a un objeto de JavaScript `{ "nombre": "Juan" }` y es muy fácil de leer para humanos y máquinas.
 
 ---
 
 ## 3. Fetch API: La herramienta nativa {#fetch-api}
 
-En React Native no necesitamos instalar nada extra para conectarnos a internet. Usamos `fetch()`, que es nativo y muy potente.
+#### ¿Qué es Fetch API?
+Es una función que ya viene dentro de React Native (no hay que instalar nada) y sirve para hacer pedidos a internet (descargar datos de una API).
 
 ```javascript
 fetch('https://api.ejemplo.com/datos')
@@ -41,6 +50,9 @@ fetch('https://api.ejemplo.com/datos')
 ---
 
 ## 4. Métodos HTTP {#métodos-http}
+
+#### ¿Qué son los Métodos HTTP?
+Son las "etiquetas" que le ponemos a nuestro pedido para que el servidor sepa qué queremos hacer (leer, crear, borrar o editar).
 
 | Método | Acción | Descripción |
 |--------|---------|-------------|
@@ -53,7 +65,11 @@ fetch('https://api.ejemplo.com/datos')
 
 ## 5. Async/Await {#uso-moderno-asyncawait}
 
-Es la forma más limpia de escribir código que "espera" a internet.
+#### ¿Qué es una Promesa?
+Es un "palo en la rueda" temporal: una tarea que todavía no terminó pero prometió darnos un resultado en el futuro (éxito o error).
+
+#### ¿Qué es Async/Await?
+Es la forma moderna de escribir código que espera promesas. Hace que el código asíncrono se lea de arriba hacia abajo, igual que el código normal.
 
 ```tsx
 const obtenerDatos = async () => {
@@ -79,6 +95,9 @@ Cuando pides datos a internet, pasan tres cosas:
 ---
 
 ## 7. MockAPI.io {#mockapio---api-rest-para-pruebas}
+
+#### ¿Qué es un Endpoint?
+Es la "dirección web" específica donde pedimos los datos (ejemplo: `https://api.com/usuarios`). Cada sección de la API tiene su propio endpoint.
 
 Para practicar, usaremos [MockAPI.io](https://mockapi.io). Es una herramienta gratuita que te permite crear tu propia API en 2 minutos sin saber nada de servidores. ¡Perfecto para prototipos!
 

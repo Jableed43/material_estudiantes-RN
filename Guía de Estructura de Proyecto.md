@@ -12,6 +12,12 @@
 
 ## 1. Archivos de Configuración {#configuracion}
 
+#### ¿Qué es la Estructura de Proyecto?
+Es el "orden de las carpetas" en tu computadora. Sirve para que tú y otros programadores encuentren rápido cada parte de la app (pantallas, imágenes, estilos) sin volverse locos.
+
+#### ¿Qué es un archivo de Configuración?
+Es un archivo de texto especial que le dice a las herramientas (como Expo o Node) cómo debe comportarse tu proyecto, qué nombre tiene y qué librerías necesita para funcionar.
+
 Cuando creas un proyecto con Expo, verás varios archivos en la carpeta raíz. Aquí te explico para qué sirven los más importantes:
 
 ### 📄 `package.json`
@@ -26,6 +32,12 @@ Si usas TypeScript (que es lo recomendado), este archivo le dice a la computador
 ---
 
 ## 2. La Carpeta `app/` (Páginas y Navegación) {#carpeta-app}
+
+#### ¿Qué es el Punto de Entrada (Entry Point)?
+Es el archivo principal por donde arranca tu aplicación. En Expo Router, ese archivo es siempre `app/index.tsx`.
+
+#### ¿Qué es un Layout?
+Es el "marco" o "esqueleto" que rodea a tus pantallas. Sirve para poner cosas que se repiten siempre (como un encabezado con tu logo o un menú de navegación) sin tener que escribirlas en cada pantalla.
 
 En Expo Router, las carpetas y archivos dentro de `app/` definen automáticamente las pantallas de tu aplicación.
 
@@ -47,7 +59,8 @@ Aquí van funciones especiales que manejan lógica (como pedir datos a una API o
 
 ## 4. Recursos Estáticos (`assets/`) {#assets}
 
-Aquí es donde guardas todo lo que no es código:
+#### ¿Qué es un Recurso Estático (Asset)?
+Es cualquier archivo que no es código de programación, como fotos, dibujos, iconos, videos o fuentes de letra personalizadas que quieres incluir dentro de tu aplicación.
 - **Imágenes y Fotos**: Dentro de `assets/images`.
 - **Iconos**: El icono de la app (`icon.png`).
 - **Splash Screen**: La imagen que se ve mientras la app carga (`splash-icon.png`).

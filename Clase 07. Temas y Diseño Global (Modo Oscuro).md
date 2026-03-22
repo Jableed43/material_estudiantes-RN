@@ -2,14 +2,34 @@
 
 ## 📚 Índice
 
-1. [Introducción al Theming](#introducción)
-2. [Context API: Compartir datos en toda la app](#context-api)
-3. [Creando una Paleta de Colores (Claro vs Oscuro)](#paleta-de-colores)
-4. [Implementación: El ThemeProvider](#implementación-de-theming-con-context-api)
-5. [Consumiendo el tema en tus componentes](#consumir-el-tema-en-componentes)
-6. [Organización de Archivos](#organización-de-estilos)
-7. [Proyecto Práctico: App Multi-Tema](#proyecto-práctico-aplicar-theming-a-la-app-de-usuarios)
-8. [Buenas Prácticas](#buenas-prácticas-con-theming)
+1. [Teoría: Design Tokens (Átomos del estilo)](#design-tokens)
+2. [Teoría: Context API (Pase libre de información)](#context-api-teoria)
+3. [¿Qué es un Tema Global?](#introducción)
+4. [Creando una Paleta de Colores (Claro vs Oscuro)](#paleta-de-colores)
+5. [Implementación: El ThemeProvider](#implementación-de-theming-con-context-api)
+6. [Consumiendo el tema en tus componentes](#consumir-el-tema-en-componentes)
+7. [Organización de Archivos](#organización-de-estilos)
+8. [Proyecto Práctico: App Multi-Tema](#proyecto-práctico-aplicar-theming-a-la-app-de-usuarios)
+9. [Buenas Prácticas](#buenas-prácticas-con-theming)
+
+---
+
+## 1. Teoría: Design Tokens {#design-tokens}
+
+#### ¿Qué es un Design Token?
+Son los "átomos" o las piezas irreductibles de tu diseño (como un color específico o un tamaño de letra). En vez de decir "usa el color rojo", dices "usa el token `error`".
+
+Imagina que tu app tiene 100 pantallas y el cliente quiere cambiar el color "Primario". 
+- **Mala práctica**: Ir archivo por archivo cambiando el código del color `#FF5733`.
+- **Buena práctica (Tokens)**: Creamos una variable llamada `primary` y la usamos en toda la app. Si el color cambia, solo tocamos **un archivo** y la magia sucede en las 100 pantallas. Esto es el corazón de un **Design System**.
+
+## 2. Teoría: Context API {#context-api-teoria}
+
+#### ¿Qué es el Prop Drilling?
+Es el problema de pasar información a través de muchos componentes que no la necesitan, solo para que llegue a un componente que está muy al fondo del árbol.
+
+#### ¿Qué es Context API?
+Es como un **túnel directo** o un canal de radio. El Emisor (Provider) manda la información y CUALQUIER componente, por más lejos que esté, puede "sintonizar" ese canal y recibir los datos sin molestar a los componentes del medio.
 
 ---
 
@@ -21,22 +41,18 @@ Un **Theme** (tema) es el ADN visual de tu aplicación. Centraliza colores, tipo
 
 ## 2. Context API {#context-api}
 
-Para que todos los componentes (botones, textos, fondos) sepan si deben ser blancos o negros, usamos **Context API**.
-- **createContext**: Crea el "canal" de comunicación.
-- **Provider**: El "emisor" que rodea toda la app.
-- **useContext**: El "receptor" que usa cada componente para leer el tema.
+#### ¿Qué es un Provider (Proveedor)?
+Es el componente que "envuelve" a los demás y les permite acceder a la información compartida. Es quien tiene la autoridad sobre los datos.
+
+#### ¿Qué es un Hook de Contexto (useContext)?
+Es la herramienta que usa cada componente para "pedir" permiso y leer la información que el Provider está emitiendo.
 
 ---
 
 ## 3. Paleta de Colores {#paleta-de-colores}
 
-No uses nombres como `azul` o `rojo`. Usa **nombres semánticos**:
-- `primary`: El color de tus botones principales.
-- `background`: El fondo de la pantalla.
-- `text`: El color de las letras.
-- `error`: Para mensajes de alerta.
-
-Así, en el **Modo Oscuro**, `background` será negro y `text` será blanco, pero el nombre de la variable sigue siendo el mismo.
+#### ¿Qué es el Modo Oscuro (Dark Mode)?
+Es una versión de tu diseño donde se usan colores oscuros para el fondo y claros para el texto, lo que cansa menos la vista y ahorra batería en pantallas OLED.
 
 ---
 
